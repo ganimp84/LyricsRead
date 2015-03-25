@@ -1,0 +1,25 @@
+<?php
+$topItems = array(
+				'song' => array('title' => 'Top songs'),
+				'artist' => array('title' => 'Top artists'),
+				'composer' => array('title' => 'Top composers'),
+				'lyricist' => array('title' => 'Top lyricists'),
+				'singer' => array('title' => 'Top singers'),
+				'album' => array('title' => 'Top albums'),
+
+);
+
+$topItems = array();
+
+$title = ' LyricsRead | Home';
+$this->headTitle($title);
+
+$this->homePage = true;
+
+?>
+<div id="topItems">
+<?php foreach($topItems as $topItem):?>
+	<div class="topItemsHead"><?php echo $topItem['title']?></div>
+	<?php endforeach;?>
+</div>
+<?php echo $this->render('app-site/song.phtml')?>

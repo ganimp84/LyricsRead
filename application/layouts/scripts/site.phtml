@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://ogp.me/ns/fb#" xmlns:og="http://ogp.me/ns#">
+<head>
+<?php echo $this->headTitle();echo PHP_EOL;?>
+<meta http-equiv="Content-Type" content="text/html;
+charset=utf-8" />	
+<?php
+$date=date("Y-m-d");
+$this->headLink()->appendStylesheet('/css/style.css?date='.$date)
+->headLink()->appendStylesheet('/public/library/css/flick/jquery-ui-1.8.22.custom.css');
+$this->headScript()->prependFile('/js/squery.js?date='.$date)
+->headScript()->prependFile('/public/library/js/jquery-ui-1.8.22.custom.min.js')
+->headScript()->prependFile('/public/library/js/jquery-1.7.2.min.js');
+
+echo $this->headMeta();echo PHP_EOL;
+echo $this->headStyle();echo PHP_EOL;
+echo $this->headLink();echo PHP_EOL;
+
+$onloadScript = "sQuery.init();";
+$this->headScript()->appendScript($onloadScript);
+
+?>
+<link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+<style type="text/css">
+.ui-autocomplete-loading {
+	background: white
+		url('/library/css/flick/images/ui-anim_basic_16x16.gif') right center
+		no-repeat;
+}
+</style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34727986-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- Put the following javascript before the closing </head> tag. -->
+<script>
+  (function() {
+    var cx = '017792694445656499884:4ztmyl1yawg';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+</head>
+<body>
+	<div id="shell">
+		<div id="page">
+			<div id="header">
+				<div id="logo">
+					<a href="/"><img src="/img/logo.png" title="LyricsRead.com" alt="LyricsRead.com" /> </a>
+				</div>
+				<div id="follow-us">
+					<a href="http://plus.google.com/u/0/100019579379794859758/posts" target="_blank" class="followus-gplus" title="Google+" rel="publisher"></a>
+					<a href="http://twitter.com/LyricsRead" target="_blank" class="followus-twitter" title="Twitter"></a>
+					<a href="http://www.facebook.com/lyricsread/" target="_blank" class="followus-fb" title="Facebook"></a>										
+					<span>Follow us on </span>										
+				</div>
+				<!--div class="siteSearch">
+					<input type="text"
+						id="song_title" name="song_title" value="Search songs.."
+						store="<?php echo $this->musicStore?>" class="autocomplete"
+						idfield="song_id" autotype="song" /> <input type="hidden"
+						id="song_id" name="song_id" value="" /-->
+				</div-->
+			</div>
+			<div id="gcSearch">				
+				<!-- Place this tag where you want both of the search box and the search results to render -->
+				<gcse:search></gcse:search>
+			</div>	
+			<?php if($this->appSettings['ads']['show']):?>
+			<div id="ad">				
+				<div id="adCover">				
+	                <?php //echo $this->ads['leaderBoard'] ?>
+	                <script language="javascript" src="http://www.cpmfun.com/getad.php?36975;65447;468x60"></script>
+				</div>						
+			</div>
+			<?php endif;?>		
+			<div id="main">
+				<div id="mainA">
+					<div id="mainB">
+						<div class="aColumn">
+						<?php echo $this->layout()->render('site_left_nav')?>	
+						</div>
+						<div class="bColumn">
+						<?php echo $this->layout()->content ?>
+						</div>
+						<div class="cColumn">
+						<?php echo $this->layout()->render('site_right_nav')?>							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="footer">
+				<?php echo $this->layout()->render('footer')?>
+			</div>
+		</div>
+	</div>
+	<?php echo $this->headScript() ?>
+	<!--  script src="http://widgets.digg.com/buttons.js" type="text/javascript"></script -->
+	<div id="fb-root"></div>	
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=<?php echo $this->socialConfig['FACEBOOK']['APP_ID']?>";fjs.parentNode.insertBefore(js, fjs);}}(document, 'script', 'facebook-jssdk');</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</body>
+</html>

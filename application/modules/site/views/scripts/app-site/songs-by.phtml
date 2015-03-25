@@ -1,0 +1,123 @@
+<?php
+
+$title = ucfirst($this->songsBy) . ' songs';
+$title.= ' | ' .ucfirst($this->songsByType);
+$title.= ' | LyricsRead.com';
+$this->headTitle($title);
+
+$songsBy = ucfirst($this->songsBy);
+$heading = $songsBy . ' songs';
+
+//Zend_Debug::dump($this->songsOf);
+/*
+if($wikiName = $this->songsOf->getWikiName()){
+	$onloadScript = "sQuery.getWikiInfobox('{$wikiName}');";
+	$this->headScript()->appendScript($onloadScript);
+}
+*/
+
+$defaultImg = '_0_a3.jpg';
+if($this->songsByType == 'Album'){
+	$defaultImg = 'default.png';
+}
+
+$songByImage = $this->songsOf->getImage();
+$songByImage = empty($songByImage) ? '/img/'.strtolower($this->songsByType).'/'. $defaultImg : $songByImage;
+
+$description = "{$songsBy} songs: ";
+
+$idName = "get{$this->songsByType}Id";
+
+$onloadScript = "sQuery.handleSongVideo();sQuery.initvl('{$this->songsOf->$idName()}', '{$this->songsByType}')";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="songByHeader">
+	<div class="songsByImg"><img src="<?php echo $songByImage?>" alt="<?php echo $songsBy;?>" title="<?php echo $songsBy;?>" width="100" height="100"/></div>
+	<h1><?php echo $heading?></h1>	
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+<?php if ($this->paginator): ?>
+	<div class="listSongRow">
+	<?php foreach ($this->paginator as $key => $music):	?>
+	<?php
+	$musicLink = strtolower($music->getMusicTitle()). '.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$musicLink = $filter->filter($musicLink);
+	$musicLink = $this->serverUrl(). '/song/'.$musicLink;
+	
+	$albumLink = strtolower($music->getAlbum()->getAlbumName()). ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$albumLink = $filter->filter($albumLink);
+	$albumLink = $this->serverUrl(). '/album/'.$albumLink;	
+	if($key < 10){
+		if($key > 0){
+			$description.= '| ';	
+		}
+		$description.= $music->getMusicTitle();
+	}
+	//Zend_Debug::dump($music, $label = 'Options:', $echo = true);exit;	
+	?>
+
+		<div class="columnA">
+		<?php
+		$songImage = $music->getImage();
+		$songImage = empty($songImage) ? '/img/music/_0_a2.png' : $songImage;
+		?>
+			<a href="<?php echo $musicLink?>"><img src="<?php echo $songImage?>"
+				alt="<?php echo $music->getMusicTitle();?> song lyrics" 
+				title="<?php echo $music->getMusicTitle();?> song lyrics" 
+				width="40" height="40" /> </a>
+		</div>
+		<div class="columnB">
+			<div class="castContainer">
+				<div class="songLabel">
+					<span class="castTitle">Song: </span><a href="<?php echo $musicLink?>" title="<?php echo $music->getMusicTitle();?> song lyrics"><?php echo $music->getMusicTitle();?></a>
+				</div>				
+				<?php if($this->songsByType != 'Album'):?>
+				<div class="songLabel">
+					<span class="castTitle">Album/ Movie: </span><a href="<?php echo $albumLink?>" title="<?php echo $music->getAlbum()->getAlbumName();?> songs"><?php echo $music->getAlbum()->getAlbumName();?></a>
+				</div>	
+				<?php endif;?>
+				<?php if($this->userIdentity && $this->userIdentity->type == 'admin'):?>
+				<br />
+				<div>
+					<a rel="noindex, nofollow" href="<?php echo $this->adminPath?>/music/edit/music_id/<?php echo $music->getMusicId()?>"><img src="/img/icons/transparent.gif" class="admin_icons view_edit" alt="Edit" title="Click to edit"></a>
+					<a rel="noindex, nofollow" href="<?php echo $this->adminPath?>/music/published/music_id/<?php echo $this->escape($music->getMusicId()) ?>/published/<?php echo $this->escape(!$music->getPublished()) ?>">
+				<?php if ($this->escape($music->getPublished())): ?>				
+					<img src="/img/icons/transparent.gif" class="admin_icons view_lock" alt="Published" title="Published | Click to toggle" />
+				<?php else: ?>
+					<img src="/img/icons/transparent.gif" class="admin_icons view_unlock" alt="Not published" title="Not Published | Click to toggle" />					
+				<?php endif;?></a>
+				</div>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<?php if(($key + 1) % 2 ==0):?>
+			<!--  div class="clear"></div -->
+		<?php endif;?>		
+		<?php endforeach; ?>
+	</div>
+	<?php endif;?>
+	<div class="clear"></div>		
+</div>
+	<?php echo $this->paginationControl($this->paginator,
+                                    'Jumping',
+                                    'shared/pagination_control.phtml'); ?>
+
+<?php
+echo $this->render('app-site/social_button.phtml');
+//Zend_Debug::dump($description);
+$keywords = "list of {$songsBy} songs,{$songsBy} songs,lyrics,collection of lyrics,list of lyrics,find lyrics,find {$songsBy} songs";
+$this->doctype('XHTML1_RDFA');
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+$this->headMeta()->setProperty('og:site_name', $this->socialConfig['FACEBOOK']['OG_SITE_NAME']);
+$this->headMeta()->setProperty('og:title', $heading. ' lyrics');
+$this->headMeta()->setProperty('og:type', $this->socialConfig['FACEBOOK']['OG_SONG_TYPE']);
+$this->headMeta()->setProperty('og:url', $this->serverUrl().$this->pageUrl);
+$this->headMeta()->setProperty('og:image', $this->serverUrl().$songByImage);
+$this->headMeta()->setProperty('fb:app_id', $this->socialConfig['FACEBOOK']['APP_ID']);
+
+?>		

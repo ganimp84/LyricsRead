@@ -1,0 +1,20 @@
+<?php if (is_array($this->relatedSongs)): ?>
+<?php foreach ($this->relatedSongs as $key => $music):	?>
+<?php
+//Zend_Debug::dump($music, $label = 'Select:', $echo = true);
+$musicLink = strtolower($music->getMusicTitle()) . '.html';
+$filter  = new Zend_Filter_Word_SeparatorToDash();
+$musicLink = $filter->filter($musicLink);
+$musicLink = $this->serverUrl() . '/song/'.$musicLink;
+?>
+
+<div class="castContainer">
+	<div class="songLabel">
+		<a href="<?php echo $musicLink?>"
+			title="<?php echo $music->getMusicTitle();?> song lyrics"><?php echo $music->getMusicTitle();?>
+		</a>
+	</div>
+</div>
+<div class="clear"></div>
+<?php endforeach; ?>
+<?php endif;?>

@@ -1,0 +1,54 @@
+<?php 
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/album/save">
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Album</h5>								
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="album_name">Album</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="album_id" name="album_id" value="<?php echo $this->escape($this->album->getAlbumId()) ?>">
+					<input type="text" id="album_name" name="album_name" value="<?php echo $this->escape($this->album->getAlbumName()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="language">Language</label>
+				</div>				
+				<div class="fieldControlLeft">
+					<input type="text" id="language_name" name="language_name" value="<?php echo $this->escape($this->album->getLanguage()->getLanguageName()) ?>" store="<?php echo $this->languageStore?>" class="admin_autocomplete" idfield="language_id">
+					<input type="hidden" id="language_id" name="language_id" value="<?php echo $this->escape($this->album->getLanguage()->getLanguageId()) ?>" /> 
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="image">Album Photo</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="image" name="image" value="<?php echo $this->escape($this->album->getImage()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Album</span>
+					</button>
+				</div>	
+				<div class="fieldControlLeft">
+					<button id="set_intnl_img" class="adminButton siteImgButton" type="button" item-type="album" idfield="album_id">
+						<span>Set Internal Image</span>
+					</button>
+				</div>		
+			</div>
+		</fieldset>
+		
+	</form>
+</div>
+

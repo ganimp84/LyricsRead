@@ -1,0 +1,66 @@
+<?php 
+
+$title = $trailerTitle = $this->trailer->getTrailerTitle();
+$title = ucfirst(strtolower($title));
+$title.= ' | LyricsRead';
+$this->headTitle($title);
+
+
+$trailerImage = $this->trailer->getAlbum()->getImage();
+$trailerImage = empty($trailerImage) ? '/img/album/_0_a3.jpg' : $trailerImage;
+$trailerVideo = $this->trailer->getVideo();
+$trailerVideo = empty($trailerVideo) ? null : $trailerVideo; 
+
+$description = "Watch the most awaited {$trailerTitle} in LyricsRead.com";
+$pageUrl = $this->serverUrl() . $this->baseUrl() .$this->url();
+?>
+<div class="songByHeader">
+	<div class="songsByImg">
+		<img src="<?php echo $trailerImage?>" alt="<?php echo $trailerTitle;?>"
+			title="<?php echo $trailerTitle;?>" width="100" height="100" />
+	</div>
+	<h1>
+	<?php echo $trailerTitle;?>
+	</h1>	
+</div>
+<br/>
+<br/>
+<div class="clear"></div>
+<div class="songBody">						
+	<div class="videoStream">			
+		<?php if($trailerVideo):?>
+		<div id="trailerVideo">
+			<div id="videoContainer"><iframe width="429" height="275" src="http://www.youtube.com/embed/<?php echo $trailerVideo;?>" frameborder="0"></iframe></div>
+		</div>
+		<?php endif;?>
+	</div>
+	<br/>
+	<div class="clear"></div>
+	<?php echo $this->render('app-site/social_button.phtml');?>		
+</div>	
+<?php if($this->socialConfig['FACEBOOK']['SHOW_COMMENTS']):?>
+<div class="fb-comments" data-href="<?php echo $pageUrl?>" data-num-posts="10" data-width="434"></div>
+<?php endif;?>
+
+<?php 
+
+$ogImgSrc = $this->serverUrl() . $trailerImage;
+//Zend_Debug::dump($description);
+$keywords = "{$trailerTitle}, watch {$trailerTitle}, watch movie trailers, trailers, movie trailers, watch trailers";
+$this->doctype('XHTML1_RDFA'); 
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+$this->headMeta()->setProperty('fb:app_id', $this->socialConfig['FACEBOOK']['APP_ID']);
+$this->headMeta()->setProperty('fb:admins', $this->socialConfig['FACEBOOK']['ADMINS']);
+$this->headMeta()->setProperty('og:site_name', $this->socialConfig['FACEBOOK']['OG_SITE_NAME']);
+$this->headMeta()->setProperty('og:title', "Watch {$trailerTitle}");
+$this->headMeta()->setProperty('og:type', $this->socialConfig['FACEBOOK']['OG_SONG_TYPE']);
+$this->headMeta()->setProperty('og:url', $pageUrl);
+$this->headMeta()->setProperty('og:image', $ogImgSrc);
+$this->headMeta()->setProperty('og:description', $description);
+
+$ogImgSrc = $this->serverUrl() . '/img/logo-fb.png';
+$this->headLink(array(	'rel' => 'image_src',
+  								'href' => $ogImgSrc),
+  								'PREPEND');
+?>

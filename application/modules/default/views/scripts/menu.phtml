@@ -1,0 +1,39 @@
+<ul class="site-navigation">
+
+<?php
+
+$html = array();
+
+foreach ($this->container as $page) 
+{
+	$activeClass = $page->getActive() ? 'class="active"': '';
+    $html[] = "<li {$activeClass}>";
+    if ($href = $page->getHref()) $html[] = "<a href=\"{$this->serverUrl()}{$href}\">";
+	else $html[] = "<span>";
+	$html[] = $page->getLabel();
+	if ($href) $html[] = "</a>";
+	else $html[] = "</span>";  
+    //$html[] = $this->menu()->htmlify($page) . PHP_EOL;    
+
+    if (!empty($page->pages))
+    {
+        $html[] = "<ul>";
+        foreach ($page->pages as $subpage) 
+        {
+            $html[] = "<li>";            
+            if ($href = $subpage->getHref()) $html[] = "<a href=\"{$href}\">";
+            else $html[] = "<span>";
+            $html[] = $subpage->getLabel();
+            if ($href) $html[] = "</a>";
+            else $html[] = "</span>";            
+            $html[] = "</li>";
+        }
+        $html[] = "</ul>";
+    }
+
+    $html[] = "</li>";
+}
+
+echo join(PHP_EOL, $html);
+?>
+</ul>

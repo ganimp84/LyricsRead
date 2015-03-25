@@ -1,0 +1,40 @@
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/artist/save">
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Artist</h5>								
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="artist_name">Artist</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="artist_id" name="artist_id" value="<?php echo $this->escape($this->artist->getArtistId()) ?>">
+					<input type="text" id="artist_name" name="artist_name" value="<?php echo $this->escape($this->artist->getArtistName()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="image">Artist Photo</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="image" name="image" value="<?php echo $this->escape($this->artist->getImage()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Artist</span>
+					</button>
+				</div>	
+				<div class="fieldControlLeft">
+					<button id="set_intnl_img" class="adminButton siteImgButton" type="button" item-type="artist" idfield="artist_id">
+						<span>Set Internal Image</span>
+					</button>
+				</div>		
+			</div>
+		</fieldset>
+		
+	</form>
+</div>

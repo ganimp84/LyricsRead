@@ -1,0 +1,85 @@
+	<ul class="album-members">
+	<?php
+	$composerData = array();
+    $singerData = array();
+    $lyricistData = array();
+    $artistData = array();
+	if(is_array($this->musics)){
+		foreach($this->musics as $music){
+
+			$composers = $music->getComposers();
+			//Zend_Debug::dump($composers);
+			if ($composers){
+				foreach ($composers as $composer){
+					$composerData[$composer->getComposerId()] = $composer->getComposerName();
+				}
+			}
+
+			$singers = $music->getSingers();
+			//Zend_Debug::dump($singers);
+			if ($singers){
+				foreach ($singers as $singer){
+					$singerData[$singer->getSingerId()] = $singer->getSingerName();
+				}
+			}
+
+			$lyricists = $music->getLyricists();
+			//Zend_Debug::dump($lyricists);
+			if ($lyricists){
+				foreach ($lyricists as $lyricist){
+					$lyricistData[$lyricist->getLyricistId()] = $lyricist->getLyricistName();
+				}
+			}
+			 
+			$artists = $music->getArtists();
+			//Zend_Debug::dump($artists);
+			if ($artists){
+				foreach ($artists as $artist){
+					$artistData[$artist->getArtistId()] = $artist->getArtistName();
+				}
+			}
+				
+		}
+		
+		if($composerData){
+			$listStr.= '<li class="albumsongs-head">Composers</li>';
+			$listStr.= '<ul>';
+			foreach($composerData as $composerId => $composerName){
+				$listStr.= '<li><a href="javascript:void(0);" class="albumsongs-item" item-id="'.$composerId.'" item-name="'.$composerName.'" autotype="composer">'.$composerName.'</a></li>';
+			}
+			$listStr.= '</ul>';
+		}
+		if($singerData){
+			$listStr.= '<li>Singers</li>';
+			$listStr.= '<ul>';
+			foreach($singerData as $singerId => $singerName){
+				$listStr.= '<li><a href="javascript:void(0);" class="albumsongs-item" item-id="'.$singerId.'" item-name="'.$singerName.'" autotype="singer">'.$singerName.'</a></li>';
+			}
+			$listStr.= '</ul>';
+		}
+		if($lyricistData){
+			$listStr.= '<li>Lyricists</li>';
+			$listStr.= '<ul>';
+			foreach($lyricistData as $lyricistId => $lyricistName){
+				$listStr.= '<li><a href="javascript:void(0);" class="albumsongs-item" item-id="'.$lyricistId.'" item-name="'.$lyricistName.'" autotype="lyricist">'.$lyricistName.'</a></li>';
+			}
+			$listStr.= '</ul>';
+		}
+		if($artistData){
+			$listStr.= '<li>Artists</li>';
+			$listStr.= '<ul>';
+			foreach($artistData as $artistId => $artistName){
+				$listStr.= '<li><a href="javascript:void(0);" class="albumsongs-item" item-id="'.$artistId.'" item-name="'.$artistName.'" autotype="artist">'.$artistName.'</a></li>';
+			}
+			$listStr.= '</ul>';
+		}
+		$songsData['composers'] = $composerData;
+		$songsData['singers'] = $singerData;
+		$songsData['lyricists'] = $lyricistData;
+		$songsData['artists'] = $artistData;
+	}
+	echo $listStr;
+	?>
+	
+	</ul>
+

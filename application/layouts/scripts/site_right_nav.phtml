@@ -1,0 +1,48 @@
+<?php if($this->pageId == 'song_lyrics'):?>
+<div class="sect_right">
+	<div class="sect_right_head">Related songs</div>
+	<div class="sect_right_body" id="related-songs"></div>
+</div>
+<?php endif;?>
+<?php if($this->pageId != 'recently_added'):?>
+<?php echo $this->render('app-site/recently_added.phtml');?>
+<?php endif;?>
+<?php if($this->socialConfig['PLUSONE']['SHOW_PAGE_BADGE']):?>
+<div class="right-ad">
+	<div class="right-ad-item">
+		<!-- Place this tag where you want the badge to render. -->
+		<g:plus width="336" href="//plus.google.com/100019579379794859758"
+			rel="publisher"></g:plus>
+	</div>
+</div>
+<?php endif;?>
+<?php if($this->socialConfig['FACEBOOK']['SHOW_LIKE_BOX']):?>
+<div
+	class="fb-like-box" data-href="http://facebook.com/LyricsRead"
+	data-width="336" data-show-faces="true" data-border-color="#ffffff"
+	data-stream="false" data-header="false"></div>
+<?php endif;?>
+<?php if($this->socialConfig['FACEBOOK']['SHOW_ACTIVITY_PLUGIN']):?>
+<div class="fb-activity"
+	data-site="Lyricsread.com"
+	data-app-id="<?php echo $this->socialConfig['FACEBOOK']['APP_ID']?>"
+	data-action="like" data-width="354" data-height="300"
+	data-header="false" data-border-color="#fff"
+	data-recommendations="true"></div>
+<?php endif;?>
+<?php if($this->socialConfig['FACEBOOK']['SHOW_RECOMMENDATIONS_BAR_PLUGIN']):?>
+<div
+	class="fb-recommendations-bar"
+	data-href="<?php echo $this->serverUrl() . $this->pageUrl?>"
+	data-trigger="manual" data-read-time="10" data-num-recommendations="5"></div>
+<?php endif;?>
+<?php if($this->appSettings['ads']['show']):?>
+<div class="right-ad">
+	<div class="right-ad-item">
+		<script language="javascript" src="http://www.cpmfun.com/getad.php?36975;65447;300x250"></script>
+	</div>
+</div>
+<?php endif;?>
+<?php if($this->pageId == 'home' || $this->pageId == 'song_lyrics'):?>
+<?php //echo $this->layout()->render('tag_cloud')?>
+<?php endif;?>

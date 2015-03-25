@@ -1,0 +1,29 @@
+<div class="sidebarbox-left">
+	<h2 class="heading">Featured Albums</h2>
+	<div class="content">
+		<ul>
+		<?php if ($this->featured && count($this->featured)): ?>
+		<?php foreach ($this->featured as $key => $album):	?>
+		<?php
+		$albumLink = strtolower($album['album_name']). ' songs.html';
+		$filter  = new Zend_Filter_Word_SeparatorToDash();
+		$albumLink = $filter->filter($albumLink);
+
+		$albumLink = $this->serverUrl() . '/album/'.$albumLink;
+		?>
+
+		<?php
+		$imageSrc = $album['image'];
+		$imageSrc = empty($imageSrc) ? '/img/album/default.png' : $imageSrc;
+		?>
+			<li><img src="<?php echo $imageSrc?>"
+				alt="<?php echo $album['album_name'];?> songs"
+				title="<?php echo $album['album_name'];?> songs" width="32"
+				height="32" /> <a href="<?php echo $albumLink?>"
+				title="<?php echo $album['album_name'];?> songs"><?php echo  $album['album_name'];?>
+			</a> <?php endforeach; ?> <?php else:?> <?php echo $this->render('app-site/no_items.phtml')?>
+			<?php endif;?>
+		
+		</ul>
+	</div>
+</div>

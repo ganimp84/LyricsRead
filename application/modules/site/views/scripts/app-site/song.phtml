@@ -1,0 +1,251 @@
+<?php 
+if(!$this->music->getMusicId()){
+	echo $this->render('app-site/no_items.phtml');
+} else {
+$onloadScript = "sQuery.initSong('{$this->music->getMusicId()}', 'music', '{$this->music->getAlbum()->getAlbumId()}');";
+$this->headScript()->appendScript($onloadScript);
+
+$musicTitle = ucfirst(strtolower($this->music->getMusicTitle()));
+if(!$this->homePage) {
+	$title = $musicTitle;
+	$title.= ' song lyrics | ';
+	$title.= $this->music->getAlbum()->getAlbumName();
+	$title.= ' songs | LyricsRead';
+	$this->headTitle($title);
+}
+
+$songImage = $this->music->getImage();
+$ogImgSrc = $songImage = empty($songImage) ? $this->music->getAlbum()->getImage() : null;
+$songImage = empty($songImage) ? '/img/music/_0_a3.jpg' : $songImage;
+$songVideo = $this->music->getVideo();
+$songVideo = empty($songVideo) ? null : $songVideo; 
+
+$keywords = $musicTitle;
+$keywords.= ',' . $this->music->getAlbum()->getAlbumName(). ',song lyrics,search lyrics, find lyrics';
+$description = 'Album: '.$this->music->getAlbum()->getAlbumName();
+$description.= '| Song: ' . $musicTitle;
+$pageUrl = $this->serverUrl() . $this->baseUrl() .$this->url();
+
+$this->redditTitle = $this->music->getAlbum()->getAlbumName() . ' - ' . $musicTitle;
+$this->showRedditButton = true;
+
+//$min = rand(4,6);
+//$sec = rand(20, 50);
+$min = 5;
+$sec = 30;
+$duration = "PT{$min}M{$sec}S";
+?>
+<div class="songContainer">
+	<div class="songHeader" itemprop="track" itemscope itemtype="http://schema.org/MusicRecording">
+		<h1 itemprop="name"><?php echo $musicTitle;?> song lyrics</h1>
+		<meta content="<?php echo $pageUrl?>" itemprop="url" />		
+		<meta content="<?php echo $this->music->getAlbum()->getAlbumName()?>" itemprop="inAlbum" />
+		<meta content="<?php echo $duration?>" itemprop="duration" />
+	</div>
+	<div class="clear"></div>
+	<div class="songBody">
+		<img id="songImg" src="<?php echo $songImage;?>"
+			alt="<?php echo $musicTitle;?> song lyrics" 
+			title="<?php echo $musicTitle;?> song lyrics"
+			width="100" height="100"
+			align="right" />
+						
+		<div class="castContainer">
+			<span itemscope itemtype="http://schema.org/MusicAlbum">
+			<span class="castTitle">Album/ Movie:</span>
+			<?php
+			$album = $this->music->getAlbum();
+			$itemLink = strtolower($album->getAlbumName()). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$itemLink = $filter->filter($itemLink);
+
+			$itemLink = $this->serverUrl() . '/album/'.$itemLink;
+
+
+			$albumStr .= '<a href="'.$itemLink.'" title="'.$album->getAlbumName().' songs"  itemprop="url">';
+			$albumStr .= '<span itemprop="name">'. $album->getAlbumName() . '</span>';
+			$albumStr .= '</a>';
+			echo $albumStr;
+			?>
+			</span>
+			<br />
+			<span itemscope itemtype="http://schema.org/MusicGroup">
+			<?php $artists = $this->music->getArtists(); ?>
+			<?php if ($artists): ?>
+			<span class="castTitle">Artist(s):</span>
+			<?php
+			$description.= '|Artist: ';
+			$artistsStr = '';
+			foreach ($artists as $artist){
+					
+				$itemLink = strtolower($artist->getArtistName()). ' songs.html';
+				$filter  = new Zend_Filter_Word_SeparatorToDash();
+				$itemLink = $filter->filter($itemLink);
+
+				$itemLink = $this->serverUrl() . '/artist/'.$itemLink;
+					
+					
+				$artistsStr .= '<a href="'.$itemLink.'" title="'.$artist->getArtistName().' songs" itemprop="url">';
+				$artistsStr .= '<span itemprop="musicGroupMember">'. $artist->getArtistName(). '</span>';
+				$artistsStr .= '</a>, ';
+				$description.= $artist->getArtistName(). ',';
+			}
+			$description= rtrim($description, ',');
+			echo rtrim($artistsStr, ', ');
+			?>			
+			<br />
+			<?php endif;?>
+			
+			<?php $composers = $this->music->getComposers(); ?>
+			<?php if ($composers): ?>
+			<span class="castTitle">Composer(s):</span>
+			<?php
+			$description.= '|Composer: ';
+			$composersStr = '';
+			foreach ($composers as $composer){
+					
+				$itemLink = strtolower($composer->getComposerName()). ' songs.html';
+				$filter  = new Zend_Filter_Word_SeparatorToDash();
+				$itemLink = $filter->filter($itemLink);
+
+				$itemLink = $this->serverUrl() . '/composer/'.$itemLink;
+					
+					
+				$composersStr .= '<a href="'.$itemLink.'" title="'.$composer->getComposerName().' songs" itemprop="url">';
+				$composersStr .= '<span itemprop="musicGroupMember">'. $composer->getComposerName() .'</span>';
+				$composersStr .= '</a>, ';
+				$description.= $composer->getComposerName(). ',';
+			}
+			$description = rtrim($description, ',');
+			echo rtrim($composersStr, ', ');
+			?>
+			<br />
+			<?php endif;?>
+			<?php $singers = $this->music->getSingers(); ?>
+			<?php if ($singers): ?>
+			<span class="castTitle">Singer(s):</span>
+			<?php
+			$description.= '|Singer: ';
+			$singersStr = '';
+			foreach ($singers as $singer){
+					
+				$itemLink = strtolower($singer->getSingerName()). ' songs.html';
+				$filter  = new Zend_Filter_Word_SeparatorToDash();
+				$itemLink = $filter->filter($itemLink);
+
+				$itemLink = $this->serverUrl() . '/singer/'.$itemLink;
+					
+					
+				$singersStr .= '<a href="'.$itemLink.'" title="'.$singer->getSingerName().' songs" itemprop="url">';
+				$singersStr .= '<span itemprop="musicGroupMember">'. $singer->getSingerName() . '</span>';
+				$singersStr .= '</a>, ';
+				$description.= $singer->getSingerName(). ',';
+			}
+			$description= rtrim($description, ',');
+			echo rtrim($singersStr, ', ');
+			?>
+			<br />
+			<?php endif;?>
+
+			<?php $lyricists = $this->music->getLyricists(); ?>
+			<?php if ($lyricists): ?>
+			<span class="castTitle">Lyricist(s):</span>
+			<?php
+			$description.= '|Lyricist: ';
+			$lyricistsStr = '';
+			foreach ($lyricists as $lyricist){
+					
+				$itemLink = strtolower($lyricist->getLyricistName()). ' songs.html';
+				$filter  = new Zend_Filter_Word_SeparatorToDash();
+				$itemLink = $filter->filter($itemLink);
+
+				$itemLink = $this->serverUrl() . '/lyricist/'.$itemLink;
+					
+					
+				$lyricistsStr .= '<a href="'.$itemLink.'" title="'.$lyricist->getLyricistName().' songs" itemprop="url">';
+				$lyricistsStr .= '<span itemprop="musicGroupMember">' . $lyricist->getLyricistName() . '</span>';
+				$lyricistsStr .= '</a>, ';
+				$description.= $lyricist->getLyricistName(). ',';
+			}
+			$description= rtrim($description, ',');
+			echo rtrim($lyricistsStr, ', ');
+			?>
+			<br />
+			<?php endif;?>
+			</span>	
+			<?php if($songVideo):?>
+			<?php $keywords.= ',video';?>
+			<br />
+			<button class="siteButton" type="button" video_id="<?php echo $songVideo;?>" id="songVideo" status="close">
+				<span>Play video</span>
+			</button>
+			<br />
+			<?php endif;?>
+		</div>
+		
+		
+		<div class="songStream">			
+			<?php if($songAudio):?>
+			<?php $keywords.= ',audio';?>
+			<div id="songAudio">
+				<a href="">Audio</a>
+			</div>
+			<?php endif;?>
+		</div>
+		
+		
+		<div class="lyricsContainer">
+			<div class="lyricsHead">
+				Lyrics: <br />
+			</div>
+
+			<div class="lyricsBody">
+			<?php echo nl2br($this->escape($this->music->getLyrics())) ?>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<?php echo $this->render('app-site/social_button.phtml');?>		
+	</div>	
+	<?php if($this->socialConfig['FACEBOOK']['SHOW_COMMENTS']):?>
+	<div class="fb-comments" data-href="<?php echo $pageUrl?>" data-num-posts="10" data-width="434"></div>
+	<?php endif;?>
+</div>
+<?php 
+
+$ogImgSrc = empty($ogImgSrc) ? $this->serverUrl() . '/img/logo-fb.png' : $this->serverUrl() . $ogImgSrc;
+
+$lyrics = $this->escape($this->music->getLyrics());
+$lyrics = explode("\r\n", $lyrics);
+$lineCount = 0;
+$description .= '| Lyrics: ';
+if(is_array($lyrics)){
+	
+	foreach($lyrics as $lineNumber => $line){
+		if(!preg_match("/^\s*$/", $line)){
+			if($lineCount > 0){
+				$description .= '| ';	
+			}
+			$description .= $line;
+			$lineCount++;
+			if($lineCount > 2) {
+				break;
+			}
+		}
+	}
+}
+//Zend_Debug::dump($description);
+
+$this->doctype('XHTML1_RDFA'); 
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+$this->headMeta()->setProperty('fb:app_id', $this->socialConfig['FACEBOOK']['APP_ID']);
+$this->headMeta()->setProperty('fb:admins', $this->socialConfig['FACEBOOK']['ADMINS']);
+$this->headMeta()->setProperty('og:site_name', $this->socialConfig['FACEBOOK']['OG_SITE_NAME']);
+$this->headMeta()->setProperty('og:title', $musicTitle. ' song lyrics');
+$this->headMeta()->setProperty('og:type', $this->socialConfig['FACEBOOK']['OG_SONG_TYPE']);
+$this->headMeta()->setProperty('og:url', $pageUrl);
+$this->headMeta()->setProperty('og:image', $ogImgSrc);
+$this->headMeta()->setProperty('og:description', $description);
+
+}
+?>

@@ -1,0 +1,49 @@
+<?php 
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/trailer/save">
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Trailer</h5>								
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="trailer_title">Trailer Title</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="trailer_id" name="trailer_id" value="<?php echo $this->escape($this->trailer->getTrailerId()) ?>">
+					<input type="text" id="trailer_title" name="trailer_title" value="<?php echo $this->escape($this->trailer->getTrailerTitle()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="video">Video</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="video" name="video" value="<?php echo $this->escape($this->trailer->getVideo()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="album">Album</label>
+				</div>				
+				<div class="fieldControlLeft">
+					<input type="text" id="album_name" name="album_name" value="<?php echo $this->escape($this->trailer->getAlbum()->getAlbumName()) ?>" store="<?php echo $this->albumStore?>" class="admin_autocomplete" idfield="album_id">
+					<input type="hidden" id="album_id" name="album_id" value="<?php echo $this->escape($this->trailer->getAlbum()->getAlbumId()) ?>" /> 
+				</div>
+			</div>			
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Trailer</span>
+					</button>
+				</div>		
+			</div>
+		</fieldset>
+		
+	</form>
+</div>
+

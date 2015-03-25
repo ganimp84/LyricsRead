@@ -1,0 +1,38 @@
+<?php 
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form id="album-form" method="post" class="adminForm" action="<?php echo $this->adminPath?>/album/save" >
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Album</h5>								
+			</div>	
+			<div class="control">
+				<div class="labelControl">
+					<label for="album_name">Album</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="overlay" name="overlay" value="<?php echo $this->overlay?>">
+					<input type="text" id="album_name" name="album_name" value="">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">					
+					<label for="language">Language</label>					
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="language_name" name="language_name" value="" store="<?php echo $this->languageStore?>" class="admin_autocomplete" idfield="language_id">
+					<input type="hidden" id="language_id" name="language_id" value="" /> 
+				</div>
+			</div>
+			<div class="control">									
+				<button id="album_submit" class="adminButton" type="<?php echo $this->overlay == '1' ? 'button' : 'submit'?>" form-id="album-form">
+					<span>Create Album</span>
+				</button>						
+			</div>
+		</fieldset>
+
+	</form>
+</div>

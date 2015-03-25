@@ -1,0 +1,285 @@
+<?php
+$title = ' LyricsRead | Home';
+$this->headTitle($title);
+
+$this->homePage = true;
+
+?>
+<?php //echo $this->render('app-site/song.phtml')?>
+<div id="topItems">
+	<div class="topItem">
+		<h2>Top Albums</h2>
+		<div class="listContainer">
+		<?php if (is_array($this->topAlbums)): ?>
+			<div class="listRow">
+			<?php foreach ($this->topAlbums as $key => $album):	?>
+			<?php
+			$albumLink = strtolower($album['album_name']). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$albumLink = $filter->filter($albumLink);
+
+			$albumLink = $this->serverUrl() . '/album/'.$albumLink;
+			if($key > 0 && $key % 4 == 0){
+				echo '</div><div class="listRow">';
+			}
+
+			?>
+
+				<div class="column">
+				<?php
+				$imageSrc = $album['image'];
+				$imageSrc = empty($imageSrc) ? '/img/album/_0_a3.jpg' : $imageSrc;
+				?>
+					<a href="<?php echo $albumLink?>"><img src="<?php echo $imageSrc?>"
+						alt="<?php echo $album['album_name'];?> songs"
+						title="<?php echo $album['album_name'];?> songs" width="100"
+						height="100" /> </a>
+					<div class="listLinkContainer">
+						<a href="<?php echo $albumLink?>" title="<?php echo $album['album_name'];?> songs"><?php echo $album['album_name'];?>
+						</a>
+					</div>
+				</div>
+
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="topItem">
+		<h2>Top Songs</h2>
+		<div class="listContainer">
+		<?php if (is_array($this->topMusics)): ?>
+			<div class="listSongRow">
+			<?php foreach ($this->topMusics as $key => $music):	?>
+			<?php
+			//Zend_Debug::dump($music, $label = 'Select:', $echo = true);
+			$musicLink = strtolower($music['music_title']) . '.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$musicLink = $filter->filter($musicLink);
+			$musicLink = $this->serverUrl() . '/song/'.$musicLink;
+
+			$albumLink = strtolower($music['album_name']) . ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$albumLink = $filter->filter($albumLink);
+			$albumLink = '/album/'.$albumLink;
+			?>
+
+				<div class="columnA">
+				<?php
+				$imageSrc = $music['image'];
+
+				//$imageSrc = empty($imageSrc) ? $music->getAlbum()->getImage() : $imageSrc;
+				$imageSrc = empty($imageSrc) ? '/img/music/_0_a2.png' : $imageSrc;
+				?>
+					<a href="<?php echo $musicLink?>"><img src="<?php echo $imageSrc?>"
+						alt="<?php echo $music['music_title'];?> song lyrics"
+						title="<?php echo $music['music_title'];?> song lyrics" width="40" height="40" />
+					</a>
+				</div>
+				<div class="columnB">
+					<div class="castContainer">
+						<div class="songLabel">
+							<span class="castTitle">Song: </span><a
+								href="<?php echo $musicLink?>" 
+								title="<?php echo $music['music_title'];?> song lyrics"><?php echo $music['music_title'];?>
+							</a>
+						</div>
+						<div class="songLabel">
+							<span class="castTitle">Album/ Movie: </span><a
+								href="<?php echo $albumLink?>" 
+								title="<?php echo $music['album_name']; ?> songs"><?php echo $music['album_name']; ?>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>			
+			<div class="clear"></div>			
+		</div>
+	</div>
+	<div class="topItem">
+		<h1>Top Artists</h1>
+		<div class="listContainer">
+		<?php if ($this->topArtists && count($this->topArtists)): ?>
+			<div class="listRow">
+			<?php foreach ($this->topArtists as $key => $artist):	?>
+			<?php
+			$artistLink = strtolower($artist['artist_name']). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$artistLink = $filter->filter($artistLink);
+
+			$artistLink = $this->serverUrl() . '/artist/'.$artistLink;
+			if($key > 0 && $key % 4 == 0){
+				echo '</div><div class="listRow">';
+			}
+			?>
+
+				<div class="column">
+				<?php
+				$imageSrc = $artist['image'];
+				$imageSrc = empty($imageSrc) ? '/img/artist/_0_a3.jpg' : $imageSrc;
+				?>
+					<a href="<?php echo $artistLink?>"><img
+						src="<?php echo $imageSrc?>"
+						alt="<?php echo $artist['artist_name'];?> songs"
+						title="<?php echo $artist['artist_name'];?> songs" width="100"
+						height="100" /> </a>
+					<div class="listLinkContainer">
+						<a href="<?php echo $artistLink?>" title="<?php echo $artist['artist_name'];?> songs"><?php echo $artist['artist_name'];?>
+						</a>
+					</div>
+				</div>
+
+				<?php endforeach; ?>
+			</div>
+			<?php else:?>
+			<?php echo $this->render('app-site/no_items.phtml')?>
+			<?php endif;?>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="topItem">
+		<h2>Top Composers</h2>
+		<div class="listContainer">
+		<?php if (is_array($this->topComposers)): ?>
+			<div class="listRow">
+			<?php foreach ($this->topComposers as $key => $composer):	?>
+			<?php
+			$composerLink = strtolower($composer['composer_name']). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$composerLink = $filter->filter($composerLink);
+
+			$composerLink = $this->serverUrl() . '/composer/'.$composerLink;
+			if($key > 0 && $key % 4 == 0){
+				echo '</div><div class="listRow">';
+			}
+
+			?>
+
+				<div class="column">
+				<?php
+				$imageSrc = $composer['image'];
+				$imageSrc = empty($imageSrc) ? '/img/composer/_0_a3.jpg' : $imageSrc;
+				?>
+					<a href="<?php echo $composerLink?>"><img
+						src="<?php echo $imageSrc?>"
+						alt="<?php echo $composer['composer_name'];?> songs"
+						title="<?php echo $composer['composer_name'];?> songs" width="100"
+						height="100" /> </a>
+					<div class="listLinkContainer">
+						<a href="<?php echo $composerLink?>" title="<?php echo $composer['composer_name'];?> songs"><?php echo $composer['composer_name'];?>
+						</a>
+					</div>
+				</div>
+
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="topItem">
+		<h2>Top Lyricists</h2>
+		<div class="listContainer">
+		<?php if (is_array($this->topLyricists)): ?>
+			<div class="listRow">
+			<?php foreach ($this->topLyricists as $key => $lyricist):	?>
+			<?php
+			$lyricistLink = strtolower($lyricist['lyricist_name']). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$lyricistLink = $filter->filter($lyricistLink);
+
+			$lyricistLink = $this->serverUrl() . '/lyricist/'.$lyricistLink;
+			if($key > 0 && $key % 4 == 0){
+				echo '</div><div class="listRow">';
+			}
+
+			?>
+
+				<div class="column">
+				<?php
+				$imageSrc = $lyricist['image'];
+				$imageSrc = empty($imageSrc) ? '/img/lyricist/_0_a3.jpg' : $imageSrc;
+				?>
+					<a href="<?php echo $lyricistLink?>"><img
+						src="<?php echo $imageSrc?>"
+						alt="<?php echo $lyricist['lyricist_name'];?> songs"
+						title="<?php echo $lyricist['lyricist_name'];?> songs" width="100"
+						height="100" /> </a>
+					<div class="listLinkContainer">
+						<a href="<?php echo $lyricistLink?>" title="<?php echo $lyricist['lyricist_name'];?> songs"><?php echo $lyricist['lyricist_name'];?>
+						</a>
+					</div>
+				</div>
+
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="topItem">
+		<h2>Top Singers</h2>
+		<div class="listContainer">
+		<?php if (is_array($this->topSingers)): ?>
+			<div class="listRow">
+			<?php foreach ($this->topSingers as $key => $singer):	?>
+			<?php
+			$singerLink = strtolower($singer['singer_name']). ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$singerLink = $filter->filter($singerLink);
+
+			$singerLink = $this->serverUrl() . '/singer/'.$singerLink;
+			if($key > 0 && $key % 4 == 0){
+				echo '</div><div class="listRow">';
+			}
+
+			?>
+
+				<div class="column">
+				<?php
+				$imageSrc = $singer['image'];
+				$imageSrc = empty($imageSrc) ? '/img/singer/_0_a3.jpg' : $imageSrc;
+				?>
+					<a href="<?php echo $singerLink?>"><img
+						src="<?php echo $imageSrc?>"
+						alt="<?php echo $singer['singer_name'];?> songs"
+						title="<?php echo $singer['singer_name'];?> songs" width="100"
+						height="100" /> </a>
+					<div class="listLinkContainer">
+						<a href="<?php echo $singerLink?>" title="<?php echo $singer['singer_name'];?> songs"><?php echo $singer['singer_name'];?>
+						</a>
+					</div>
+				</div>
+
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<br /><br /><br />
+			<div class="clear"></div>
+			<?php echo $this->render('app-site/social_button.phtml');?>
+		</div>
+	</div>
+	
+</div>
+<?php 
+$keywords = "lyrics of,song lyrics,music lyrics,songs lyrics,lyrics,song videos,search lyrics";
+$description = "LyricsRead.com is collection of lyrics of popular songs that have been organized properly for easy search. Updated daily with latest lyrics of hit songs.";//Find the songs and lyrics of top artists, composers, lyricists, singers & albums.";
+//Zend_Debug::dump(strlen($description));
+$ogImgSrc = $this->serverUrl() . '/img/logo-fb.png';
+
+$this->doctype('XHTML1_RDFA'); 
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+$this->headMeta()->setProperty('fb:app_id', $this->socialConfig['FACEBOOK']['APP_ID']);
+$this->headMeta()->setProperty('fb:admins', $this->socialConfig['FACEBOOK']['ADMINS']);
+$this->headMeta()->setProperty('og:site_name', $this->socialConfig['FACEBOOK']['OG_SITE_NAME']);
+$this->headMeta()->setProperty('og:title', $title);
+$this->headMeta()->setProperty('og:type', $this->socialConfig['FACEBOOK']['OG_SONG_TYPE']);
+$this->headMeta()->setProperty('og:url', $this->serverUrl().$this->pageUrl);
+$this->headMeta()->setProperty('og:image', $ogImgSrc);
+$this->headMeta()->setProperty('og:description', $description);
+?>

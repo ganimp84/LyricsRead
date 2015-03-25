@@ -1,0 +1,42 @@
+<?php
+
+$browseElements = array('song' => array('title' => 'Browse songs'),
+						'album' => array('title' => 'Browse albums', 'numbers' => true),
+						'composer' => array('title' => 'Browse composers'),
+						'lyricist' => array('title' => 'Browse lyricists'),
+						'artist' => array('title' => 'Browse artists'),
+						'singer' => array('title' => 'Browse singers'),
+);
+
+
+?>
+<div class="browse_right">
+<?php foreach ($browseElements as $element => $browse):	?>
+	<div class="browse_head">
+		<a href="<?php echo $this->serverUrl('/' . $element. '/'); ?>"><?php echo $browse['title']?>
+		</a>
+	</div>
+	<div class="browse_body">
+		<ul>
+		<?php
+		$numbers = range(0, 9);
+		$letters = range('A', 'Z');
+		if($browse['numbers']){
+			$letters = array_merge($numbers, $letters);
+		}
+		?>
+		<?php foreach($letters as $letter):?>
+			<li><a
+				href="<?php echo $this->serverUrl('/' . $element . '/ls/' . $letter); ?>"><?php echo $letter?>
+			</a>
+			</li>
+			<?php endforeach;?>
+		</ul>
+	</div>
+	<?php endforeach; ?>
+</div>
+<div class="sect_right">
+	<div class="sect_right_head">
+		<a href="<?php echo $this->serverUrl('/recent/'); ?>">Recently added </a>
+	</div>
+</div>

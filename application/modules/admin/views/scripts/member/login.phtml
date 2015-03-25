@@ -1,0 +1,32 @@
+<div class="htlFormControl">
+	<form method='post' action='<?php echo $this->escape($this->action);?>'>
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h1 class="sectionHeader"><?php echo $this->escape($this->title);?></h1>								
+			</div>	
+			<div class="control">
+				<div class="labelControl">
+					<label for="username">Username</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type='text' name='username' id='username' />
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">					
+					<label for="language">Password</label>					
+				</div>
+				<div class="fieldControlLeft">
+					<input type='password' name='password' id='password' /> 
+				</div>
+			</div>
+			<div class="control">									
+				<button id="submit" class="adminButton" type="submit" >
+					<span>Login</span>
+				</button>						
+			</div>
+		</fieldset>
+
+	</form>
+</div>

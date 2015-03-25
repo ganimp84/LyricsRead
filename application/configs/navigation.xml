@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<nav>
+
+		<album>
+			<label>Album</label>
+			<uri>/wm/album/view</uri>
+			<id>album_view</id>
+		</album>
+		<composer>
+			<label>Composer</label>
+			<uri>/wm/composer/view</uri>
+			<id>composer_view</id>
+		</composer>
+		<singer>
+			<label>Singer</label>
+			<uri>/wm/singer/view</uri>
+			<id>singer_view</id>
+		</singer>
+		<lyricist>
+			<label>Lyricist</label>
+			<uri>/wm/lyricist/view</uri>
+			<id>lyricist_view</id>
+		</lyricist>
+		<artist>
+			<label>Artist</label>
+			<uri>/wm/artist/view</uri>
+			<id>artist_view</id>
+		</artist>
+		<music>
+			<label>Music</label>
+			<uri>/wm/music/view</uri>
+			<id>music_view</id>
+		</music>
+		<trailer>
+			<label>Trailer</label>
+			<uri>/wm/trailer/view</uri>
+			<id>trailer_view</id>
+		</trailer>
+		<import>
+			<label>Import</label>
+			<uri>/wm/import/index</uri>
+			<id>import</id>
+		</import>
+	</nav>
+</config>

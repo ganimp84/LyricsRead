@@ -1,0 +1,23 @@
+<div class="social_buttons">
+	<?php if($this->socialConfig['FACEBOOK']['SHOW_LIKE_BUTTON']):?>
+	<div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+	<?php  endif;?>			
+	<?php if($this->socialConfig['TWITTER']['SHOW_TWEET_BUTTON']):?>
+	<div><a href="https://twitter.com/share" class="twitter-share-button" data-via="<?php echo $this->socialConfig['TWITTER']['TWEET_VIA']?>" data-counturl="<?php echo $this->serverUrl() . $this->pageUrl;?>">Tweet</a></div>
+	<?php  endif;?>
+	<?php if($this->socialConfig['PLUSONE']['SHOW_PLUSONE_BUTTON']):?>
+	<!-- Place this tag where you want the +1 button to render. -->
+	<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="300"></div>
+	<?php  endif;?>
+	<?php if($this->socialConfig['REDDIT']['SHOW_REDDIT_BUTTON'] && $this->showRedditButton):?>
+	<div>	
+	<script type="text/javascript">
+  reddit_url = "<?php echo $this->serverUrl() . $this->pageUrl;?>";
+  reddit_title = "<?php echo $this->redditTitle?>";
+  reddit_target='Lyrics';
+  reddit_newwindow='1'
+</script>
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
+	</div>
+	<?php  endif;?>		
+</div>	

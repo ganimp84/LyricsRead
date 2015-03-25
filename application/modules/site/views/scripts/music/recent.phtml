@@ -1,0 +1,86 @@
+<?php
+$title = 'Recently added | LyricsRead.com';
+$this->headTitle($title);
+
+$description = 'List of recently added songs: ';
+?>
+<div class="songHeader">
+	<h1>Recently added</h1>
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+		<?php if (is_array($this->recent)): ?>
+			<div class="listSongRow">
+			<?php foreach ($this->recent as $key => $music):	?>
+			<?php
+			//Zend_Debug::dump($music, $label = 'Select:', $echo = true);
+			$musicLink = strtolower($music['music_title']) . '.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$musicLink = $filter->filter($musicLink);
+			$musicLink = $this->serverUrl() . '/song/'.$musicLink;
+
+			$albumLink = strtolower($music['album_name']) . ' songs.html';
+			$filter  = new Zend_Filter_Word_SeparatorToDash();
+			$albumLink = $filter->filter($albumLink);
+			$albumLink = '/album/'.$albumLink;
+			
+			if($key < 5){
+				if($key > 0){
+					$description.= '| ';
+				}
+				$description.= $music['music_title'];
+			}
+			?>
+
+				<div class="columnA">
+				<?php
+				$imageSrc = $music['image'];
+
+				//$imageSrc = empty($imageSrc) ? $music->getAlbum()->getImage() : $imageSrc;
+				$imageSrc = empty($imageSrc) ? '/img/music/_0_a2.png' : $imageSrc;
+				?>
+					<a href="<?php echo $musicLink?>"><img src="<?php echo $imageSrc?>"
+						alt="<?php echo $music['music_title'];?> song lyrics"
+						title="<?php echo $music['music_title'];?> song lyrics" width="40" height="40" />
+					</a>
+				</div>
+				<div class="columnB">
+					<div class="castContainer">
+						<div class="songLabel">
+							<span class="castTitle">Song: </span><a
+								href="<?php echo $musicLink?>" 
+								title="<?php echo $music['music_title'];?> song lyrics"><?php echo $music['music_title'];?>
+							</a>
+						</div>
+						<div class="songLabel">
+							<span class="castTitle">Album/ Movie: </span><a
+								href="<?php echo $albumLink?>" 
+								title="<?php echo $music['album_name']; ?> songs"><?php echo $music['album_name']; ?>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+		</div>	
+<?php
+//Zend_Debug::dump(strlen($description));
+$keywords = 'recently added,list of songs,songs,lyrics,collection of lyrics,list of lyrics,find lyrics,find songs, lyricsread';
+
+$ogImgSrc = $this->serverUrl() . '/img/logo-fb.png';
+
+$this->doctype('XHTML1_RDFA'); 
+
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+$this->headMeta()->setProperty('fb:app_id', $this->socialConfig['FACEBOOK']['APP_ID']);
+$this->headMeta()->setProperty('fb:admins', $this->socialConfig['FACEBOOK']['ADMINS']);
+$this->headMeta()->setProperty('og:site_name', $this->socialConfig['FACEBOOK']['OG_SITE_NAME']);
+$this->headMeta()->setProperty('og:title', $title);
+$this->headMeta()->setProperty('og:type', $this->socialConfig['FACEBOOK']['OG_SONG_TYPE']);
+$this->headMeta()->setProperty('og:url', $this->serverUrl().$this->pageUrl);
+$this->headMeta()->setProperty('og:image', $ogImgSrc);
+$this->headMeta()->setProperty('og:description', $description);
+?>	

@@ -1,0 +1,32 @@
+<div class="sect_right">
+	<div class="sect_right_head">Recently added</div>
+	<div class="sect_right_body">
+	<?php if (is_array($this->recentlyAdded)): ?>
+	<?php foreach ($this->recentlyAdded as $key => $music):	?>
+	<?php
+	//Zend_Debug::dump($music, $label = 'Select:', $echo = true);
+	$musicLink = strtolower($music['music_title']) . '.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$musicLink = $filter->filter($musicLink);
+	$musicLink = $this->serverUrl() . '/song/'.$musicLink;
+
+	$albumLink = strtolower($music['album_name']) . ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$albumLink = $filter->filter($albumLink);
+	$albumLink = '/album/'.$albumLink;
+	?>
+
+		<div class="castContainer">
+			<div class="songLabel">
+				<a href="<?php echo $musicLink?>" title="<?php echo $music['music_title'];?> song lyrics"><?php echo $music['music_title'];?>
+				</a> - (Album: <a href="<?php echo $albumLink?>" title="<?php echo $music['album_name']; ?> songs"><?php echo $music['album_name']; ?>
+				</a>)
+			</div>
+		</div>
+
+		<div class="clear"></div>
+		<?php endforeach; ?>
+		<div class="more-recent"><a href="<?php echo $this->serverUrl() . '/recent/'?>">More</a></div>
+		<?php endif;?>
+	</div>
+</div>

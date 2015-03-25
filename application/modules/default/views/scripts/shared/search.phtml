@@ -1,0 +1,143 @@
+<?php
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form method="post" class="adminForm"
+		action="<?php echo $this->searchAction?>">
+		<div class="control">
+			<h5 class="sectionHeader">
+			<?php echo $this->searchTitle?>
+			</h5>
+		</div>
+		<?php if($this->searchOptions): ?>
+		<fieldset class="containingBlock">
+		<?php foreach($this->searchOptions as $field => $filterOption):?>
+			<div class="control">
+				<div class="labelControl">
+					<label for="<?php echo $field?>"><?php echo $filterOption['label']?>
+					</label>
+				</div>
+				<?php if($filterOption['type'] == 'text'):?>
+				<div class="fieldControlLeft">
+					<select name="stype_<?php echo $field?>"
+						id="stype_<?php echo $field?>">
+						<?php
+						$options = array(	'' => '--Search type--',
+												'start' => 'Starts with',
+												'end' => 'Ends with',
+												'contains' => 'Contains',
+												'exact' => 'Exactly'
+												);
+													
+												?>
+												<?php foreach($options as $value => $text):?>
+						<option value="<?php echo $value?>"
+						<?php if($this->request->getParam('stype_'.$field, '') == $value) echo 'selected="selected"'?>>
+							<?php echo $text?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="<?php echo $field?>"
+						name="<?php echo $field?>"
+						value="<?php  echo $this->request->getParam($field, '')?>">
+				</div>
+				<?php elseif($filterOption['type'] == 'select'):?>
+				<div class="fieldControlLeft">
+					<select name="<?php echo $field?>"
+						id="<?php echo $field?>">
+						<option value="">-Select-</option>
+						<?php foreach($filterOption['select_options'] as $value => $text):?>
+						<option value="<?php echo $value?>"
+						<?php if($this->request->getParam($field, '') == $value) echo 'selected="selected"'?>>
+							<?php echo $text?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<?php elseif($filterOption['type'] == 'radio'):?>
+				<div class="fieldControlLeft">
+				<?php foreach($filterOption['radio_options'] as $value => $text):?>
+					<div class="radioControl fLeft">
+						<input type="radio" id="<?php echo $field.'_'.$value?>"
+							name="<?php echo $field?>" value="<?php echo $value?>"
+							<?php if($this->request->getParam($field, '-1') == $value) echo 'checked="checked"'?>>
+					</div>
+					<div class="labelControl">
+						<label for="<?php echo $field.'_'.$value?>" class="radioLabel"><?php echo $text?>
+						</label>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<?php elseif($filterOption['type'] == 'autocomplete'):?>
+
+				<div class="fieldControlLeft">
+					<input type="text" id="<?php echo $filterOption['label_field']?>"
+						name="<?php echo $filterOption['label_field']?>"
+						value="<?php  echo $this->request->getParam($filterOption['label_field'], '')?>"
+						class="admin_autocomplete"
+						store="<?php echo $filterOption['store']?>"
+						idfield="<?php echo $field?>"> <input type="hidden"
+						id="<?php echo $field?>" name="<?php echo $field?>"
+						value="<?php  echo $this->request->getParam($field, '')?>" />
+				</div>
+
+
+
+				<?php endif;?>
+			</div>
+			<?php endforeach; ?>
+		</fieldset>
+		<?php endif;?>
+
+
+		<?php if($this->orderbyOptions): ?>
+		<fieldset class="containingBlock">
+		<?php foreach($this->orderbyOptions as $order_field => $orderbyOption):?>
+			<div class="control">
+				<div class="labelControl">
+					<label for="<?php echo $order_field?>"><?php echo $orderbyOption['label']?>
+					</label>
+				</div>
+				<div class="fieldControlLeft">
+					<select name="<?php echo $order_field?>"
+						id="stype_<?php echo $order_field?>">
+						<?php foreach($orderbyOption['options'] as $value => $text):?>
+						<option value="<?php echo $value?>"
+						<?php if($this->request->getParam($order_field, '') == $value) echo 'selected="selected"'?>>
+							<?php echo $text?>
+						</option>
+						<?php endforeach; ?>
+					</select> <select name="sorttype_<?php echo $order_field?>"
+						id="sorttype_<?php echo $order_field?>">
+						<?php
+						$options = array(	'' => '--Sort type--',
+												'asc' => 'Asc',
+												'desc' => 'Desc'
+												);
+													
+												?>
+												<?php foreach($options as $value => $text):?>
+						<option value="<?php echo $value?>"
+						<?php if($this->request->getParam('sorttype_'.$order_field, '') == $value) echo 'selected="selected"'?>>
+							<?php echo $text?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<?php endforeach; ?>
+		</fieldset>
+
+		<?php endif;?>
+		<div class="control">
+			<div class="fieldControlLeft">
+				<button id="search" name="search" class="adminButton" type="submit">
+					<span>Search</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

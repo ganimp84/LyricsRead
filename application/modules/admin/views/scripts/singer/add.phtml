@@ -1,0 +1,25 @@
+<div class="htlFormControl">
+	<form id="singer-form" method="post" class="adminForm" action="<?php echo $this->adminPath?>/singer/save">
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Singer</h5>								
+			</div>	
+			<div class="control">
+				<div class="labelControl">
+					<label for="singer_name">Singer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="overlay" name="overlay" value="<?php echo $this->overlay?>">
+					<input type="text" id="singer_name" name="singer_name" value="">
+				</div>
+			</div>
+			<div class="control">									
+				<button id="singer_submit" class="adminButton" type="<?php echo $this->overlay == '1' ? 'button' : 'submit'?>" form-id="singer-form">
+					<span>Create Singer</span>
+				</button>						
+			</div>
+		</fieldset>
+
+	</form>
+</div>

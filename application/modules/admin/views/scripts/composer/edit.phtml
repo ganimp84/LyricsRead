@@ -1,0 +1,40 @@
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/composer/save">
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Composer</h5>								
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="composer_name">Composer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="composer_id" name="composer_id" value="<?php echo $this->escape($this->composer->getComposerId()) ?>">
+					<input type="text" id="composer_name" name="composer_name" value="<?php echo $this->escape($this->composer->getComposerName()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="image">Composer Photo</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="image" name="image" value="<?php echo $this->escape($this->composer->getImage()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Composer</span>
+					</button>
+				</div>	
+				<div class="fieldControlLeft">
+					<button id="set_intnl_img" class="adminButton siteImgButton" type="button" item-type="composer" idfield="composer_id">
+						<span>Set Internal Image</span>
+					</button>
+				</div>		
+			</div>
+		</fieldset>
+		
+	</form>
+</div>

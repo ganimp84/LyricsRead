@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+	<nav>
+		<site_home>
+			<label>Home</label>
+			<uri>/</uri>
+			<id>home</id>
+		</site_home>
+		<song>
+			<label>Songs</label>
+			<uri>/song/</uri>
+			<id>song_list</id>
+		</song>
+		<album>
+			<label>Albums</label>
+			<uri>/album/</uri>
+			<id>album_list</id>
+		</album>
+		<composer>
+			<label>Composers</label>
+			<uri>/composer/</uri>
+			<id>composer_list</id>
+		</composer>
+		<singer>
+			<label>Singers</label>
+			<uri>/singer/</uri>
+			<id>singer_list</id>
+		</singer>
+		<lyricist>
+			<label>Lyricists</label>
+			<uri>/lyricist/</uri>
+			<id>lyricist_list</id>
+		</lyricist>
+		<artist>
+			<label>Artists</label>
+			<uri>/artist/</uri>
+			<id>artist_list</id>
+		</artist>
+		<trailer>
+			<label>Trailers/ Teasers</label>
+			<uri>/trailer/</uri>
+			<id>trailer_list</id>
+		</trailer>
+		<sitemap>
+			<label>Sitemap</label>
+			<uri>/sitemap.html</uri>
+			<id>sitemap</id>
+		</sitemap>
+	</nav>
+</configdata>

@@ -1,0 +1,46 @@
+<?php 
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form id="trailer-form" method="post" class="adminForm" action="<?php echo $this->adminPath?>/trailer/save" >
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Trailer</h5>								
+			</div>	
+			<div class="control">
+				<div class="labelControl">
+					<label for="trailer_title">Trailer Title</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="overlay" name="overlay" value="<?php echo $this->overlay?>">
+					<input type="text" id="trailer_title" name="trailer_title" value="">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="video">Video</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="video" name="video" value="">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">					
+					<label for="album">Album</label>					
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="album_name" name="album_name" value="" store="<?php echo $this->albumStore?>" class="admin_autocomplete" idfield="album_id">
+					<input type="hidden" id="album_id" name="album_id" value="" /> 
+				</div>
+			</div>
+			<div class="control">									
+				<button id="trailer_submit" class="adminButton" type="<?php echo $this->overlay == '1' ? 'button' : 'submit'?>" form-id="trailer-form">
+					<span>Create Trailer</span>
+				</button>						
+			</div>
+		</fieldset>
+
+	</form>
+</div>

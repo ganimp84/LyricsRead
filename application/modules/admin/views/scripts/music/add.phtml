@@ -1,0 +1,148 @@
+<?php
+$onloadScript = "cQuery.adminAutocomplete();cQuery.initMusic();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="htlFormControl">
+	<form method="post" class="adminForm"
+		action="<?php echo $this->adminPath?>/music/save"
+		onsubmit="return cQuery.musicFormValidate();">
+		<div id="album-songs"></div>
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Music</h5>
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="album_name">Album</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="album_name" name="album_name" value=""
+						store="<?php echo $this->albumStore?>" class="album_autocomplete"
+						idfield="album_id" /> <input type="hidden" id="album_id"
+						name="album_id" value="" />
+				</div>
+				<div class="fieldControlLeft">
+					<button id="new_album" class="adminButton" type="button">
+						<span>New Album</span>
+					</button>
+				</div>				
+			</div>
+			<div id="composer_list_creator" class="control">
+				<div class="labelControl">
+					<label for="composer_name">Composer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="composer_name" name="composer_name" value=""
+						store="<?php echo $this->composerStore?>"
+						class="admin_multi_autocomplete" autotype="composer"
+						idfield="composer_id"> <input type="hidden" id="composer_ids"
+						name="composer_ids" value="" />
+				</div>
+				<div class="fieldControlLeft">
+					<button id="new_composer" class="adminButton" type="button">
+						<span>New Composer</span>
+					</button>
+				</div>
+			</div>
+			<div id="singer_list_creator" class="control">
+				<div class="labelControl">
+					<label for="singer_name">Singer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="singer_name" name="singer_name" value=""
+						store="<?php echo $this->singerStore?>"
+						class="admin_multi_autocomplete" autotype="singer"
+						idfield="singer_id"> <input type="hidden" id="singer_ids"
+						name="singer_ids" value="" />
+				</div>
+				<div class="fieldControlLeft">
+					<button id="new_singer" class="adminButton" type="button">
+						<span>New Singer</span>
+					</button>
+				</div>
+			</div>
+			<div id="lyricist_list_creator" class="control">
+				<div class="labelControl">
+					<label for="lyricist_name">Lyricist</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="lyricist_name" name="lyricist_name" value=""
+						store="<?php echo $this->lyricistStore?>"
+						class="admin_multi_autocomplete" autotype="lyricist"
+						idfield="lyricist_id"> <input type="hidden" id="lyricist_ids"
+						name="lyricist_ids" value="" />
+				</div>
+				<div class="fieldControlLeft">
+					<button id="new_lyricist" class="adminButton" type="button">
+						<span>New Lyricist</span>
+					</button>
+				</div>
+			</div>
+			<div id="artist_list_creator" class="control">
+				<div class="labelControl">
+					<label for="artist_name">Artist</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="artist_name" name="artist_name" value=""
+						store="<?php echo $this->artistStore?>"
+						class="admin_multi_autocomplete" autotype="artist"
+						idfield="artist_id"> <input type="hidden" id="artist_ids"
+						name="artist_ids" value="" />
+				</div>
+				<div class="fieldControlLeft">
+					<button id="new_artist" class="adminButton" type="button">
+						<span>New Artist</span>
+					</button>
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="music_title">Music Title</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="music_title" name="music_title" value="">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="lyrics">Lyrics</label>
+				</div>
+				<div class="fieldControlLeft">
+					<textarea id="lyrics" name="lyrics"></textarea>
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">					
+					<div class="radioControl fLeft">
+						<input type="radio" id="save_type_1" name="save_type" value="save_and_new" checked="checked" />
+					</div>
+					<div class="labelControl">
+						<label for="save_type_1" class="radioLabel">Save and New</label>
+					</div>
+					<div class="radioControl fLeft">
+						<input type="radio" id="save_type_2" name="save_type" value="save_and_edit" />
+					</div>
+					<div class="labelControl">
+						<label for="save_type_2" class="radioLabel">Save and Edit</label>
+					</div>
+					<div class="radioControl fLeft">
+						<input type="radio" id="save_type_3" name="save_type" value="save" />
+					</div>
+					<div class="labelControl">
+						<label for="save_type_3" class="radioLabel">Save</label>
+					</div>
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Create Music</span>
+					</button>
+				</div>
+			</div>
+		</fieldset>
+
+	</form>
+</div>
+<div id="add-related-item"></div>
+

@@ -1,0 +1,35 @@
+<div class="menu">
+<?php
+$partial = array('menu.phtml', 'default');
+$this->navigation()->menu()->setPartial($partial);
+echo $this->navigation()->menu()->render();
+//echo $this->navigation()->menu();
+?>
+</div>
+<?php echo $this->action('featured', 'album', 'site'); ?>
+<div class="filter">
+	<div>
+		<a href="#" id="lang-filter" data-langlist-status="close">Language - <?php if($this->lang_name) {echo $this->lang_name;} else {echo 'All';}?>
+		</a>
+	</div>
+</div>
+<?php if($this->show_filter_help):?>
+<div class='tooltip'>
+	<div class=container>
+		<div class=close></div>
+		<div class=clear></div>
+		<div class=text>
+			Click this to filter <br />songs, albums and trailers <br />based on
+			languages.
+		</div>
+	</div>
+	<div class=arrow></div>
+</div>
+<?php endif;?>
+<?php if($this->appSettings['ads']['show']):?>
+<div class="left-ad">
+	<div class="left-ad-item">
+		<script language="javascript" src="http://www.cpmfun.com/getad.php?36975;65447;120x600"></script>
+	</div>
+</div>
+<?php endif;?>

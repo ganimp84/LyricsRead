@@ -1,0 +1,78 @@
+<?php 
+if($this->search){
+	$startsWith = " starts with '{$this->search}'";
+}
+if($this->page > 1){
+	$pageText = " - Page {$this->page}";
+}
+$title = "Browse artists{$startsWith}{$pageText}| LyricsRead.com";
+$this->headTitle($title);
+
+$description = 'List of artists: ';
+?>
+<div class="songHeader">
+	<h1>Browse artists<?php echo $startsWith;?><?php echo $pageText;?></h1>	
+</div>
+<div class="listSearch">
+	<input type="text" id="artist_name"
+			name="artist_name" value="Search artists.."
+			store="<?php echo $this->artistStore?>" class="autocomplete"
+			idfield="artist_id"
+			autotype="artist" /> 
+	<input type="hidden" id="artist_id" name="artist_id" value="" />
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+<?php if ($this->paginator && count($this->paginator)): ?>
+	<div class="listRow">
+	<?php foreach ($this->paginator as $key => $artist):	?>
+	<?php
+	$artistLink = strtolower($artist->getArtistName()). ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$artistLink = $filter->filter($artistLink);
+
+	$artistLink = $this->serverUrl() . '/artist/'.$artistLink;
+	if($key > 0 && $key % 4 == 0){
+		echo '</div><div class="listRow">';
+	}
+	
+	if($key < 10){
+		if($key > 0){
+			$description.= '| ';	
+		}
+		$description.= $artist->getArtistName();
+	}
+	?>
+
+		<div class="column">
+		<?php
+		$imageSrc = $artist->getImage();
+		$imageSrc = empty($imageSrc) ? '/img/artist/_0_a3.jpg' : $imageSrc;
+		?>
+			<a href="<?php echo $artistLink?>"><img src="<?php echo $imageSrc?>"
+				alt="<?php echo $artist->getArtistName();?> songs" 
+				title="<?php echo $artist->getArtistName();?> songs" 
+				width="100" height="100" /> </a>
+			<div class="listLinkContainer">
+				<a href="<?php echo $artistLink?>" title="<?php echo $artist->getArtistName();?> songs"><?php echo $artist->getArtistName();?>
+				</a>
+			</div>
+		</div>
+
+		<?php endforeach; ?>
+	</div>
+<?php else:?>
+<?php echo $this->render('app-site/no_items.phtml')?>
+<?php endif;?>
+<div class="clear"></div>	
+</div>
+<?php echo $this->paginationControl($this->paginator,
+                                    'Jumping',
+                                    'shared/pagination_control.phtml'); ?>
+<?php
+echo $this->render('app-site/social_button.phtml');
+//Zend_Debug::dump($description);
+$keywords = 'list of artists,artists,lyrics,collection of lyrics,list of lyrics,find lyrics,find artists';
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+?>                                    

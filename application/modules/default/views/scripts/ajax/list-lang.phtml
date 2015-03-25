@@ -1,0 +1,8 @@
+<ul class="lang-list">
+<?php if($this->langs):?>
+	<li <?php if($this->lang_id == 0){echo "class='active'";}?>><a href="/default/index/filter/lang_id/<?php echo $lang['language_id']?>" data-lang-id="0">[ All ]</a></li>
+	<?php foreach($this->langs as $lang):?>
+	<li <?php if($this->lang_id == $lang['language_id']){echo "class='active'";}?>><a href="/default/index/filter/lang_id/<?php echo $lang['language_id']?>/lang_name/<?php echo $lang['language_name']?>" data-lang-id="<?php echo $lang['language_id']?>"><?php echo $lang['language_name']?></a></li>
+	<?php endforeach;?>
+<?php endif;?>
+</ul>

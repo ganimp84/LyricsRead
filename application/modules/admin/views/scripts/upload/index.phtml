@@ -1,0 +1,30 @@
+<div class="htlFormControl">
+	<form id="<?php echo $this->form->getAttrib('id')?>" enctype="<?php echo $this->form->getAttrib('enctype')?>" method="<?php echo $this->form->getMethod()?>"
+		class="adminForm" action="<?php echo $this->form->getAction()?>">
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Upload</h5>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="url_type">Type</label>
+				</div>
+				<div class="fieldControlLeft">
+					<?php echo $this->form->getElement('url_type');?>
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<?php echo $this->form->getElement('upload_file');?>
+				</div>
+			</div>
+			<div class="control">	
+				<div class="fieldControlLeft">	
+					<?php echo $this->form->getElement('submit');?>
+				</div>
+			</div>
+		</fieldset>
+
+	</form>
+</div>

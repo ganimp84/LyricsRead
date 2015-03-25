@@ -1,0 +1,25 @@
+<div class="htlFormControl">
+	<form id="composer-form" method="post" class="adminForm" action="<?php echo $this->adminPath?>/composer/save">
+
+		<fieldset class="adminBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Composer</h5>								
+			</div>	
+			<div class="control">
+				<div class="labelControl">
+					<label for="composer_name">Composer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="hidden" id="overlay" name="overlay" value="<?php echo $this->overlay?>">
+					<input type="text" id="composer_name" name="composer_name" value="">
+				</div>
+			</div>
+			<div class="control">									
+				<button id="composer_submit" class="adminButton" type="<?php echo $this->overlay == '1' ? 'button' : 'submit'?>" form-id="composer-form">
+					<span>Create Composer</span>
+				</button>						
+			</div>
+		</fieldset>
+
+	</form>
+</div>

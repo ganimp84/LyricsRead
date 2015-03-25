@@ -1,0 +1,97 @@
+<div class="itemsNav">
+<span><a href="<?php echo $this->adminPath?>/album/add">New Album</a></span>
+</div>
+<?php echo $this->render('shared/search.phtml')?>
+<table class="admin-dt">
+	<thead>
+		<tr>
+			<th  width="5%">Select</th>
+			<th>Album</th>
+			<th>Language</th>
+			<?php if ($this->albumConfig['view_show_photo']): ?>	
+				<th>Photo</th>
+			<?php endif;?>	
+			<th width="6%"></th>
+			<th width="6%"></th>
+			<th width="6%"></th>	
+			<th width="6%"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (count($this->paginator)): ?>
+			<?php foreach ($this->paginator as $album):	?>
+			<tr>
+				<td>
+					<div class="checkboxControl">
+						<div class="fieldControl">
+						<input name="album_select" type="checkbox" value="<?php echo $this->escape($album->getAlbumId()) ?>" />
+						</div>
+					</div>	
+				</td>
+				<td><?php echo $this->escape($album->getAlbumName()) ?></td>
+				<td><?php echo $this->escape($album->getLanguage()->getLanguageName()) ?></td>
+				<?php if ($this->albumConfig['view_show_photo']): ?>
+				<?php 
+					$apn = '_'.$this->escape($album->getAlbumId()).'_'.$this->albumConfig['view_photo_size'].'.jpg';
+					if(!file_exists($this->albumGalleryPath.$apn)){
+						$apn = '_0_'.$this->albumConfig['view_photo_size'].'.jpg';
+					} 
+				?>	
+					<td><img src="<?php echo $this->albumGalleryPublicPath.$apn?>" alt="<?php echo $this->escape($album->getAlbumName()) ?>"></td>
+				<?php endif;?>	
+				<td><a href="<?php echo $this->adminPath?>/album/edit/album_id/<?php echo $this->escape($album->getAlbumId()) ?>"><img src="/img/icons/transparent.gif" class="admin_icons view_edit" alt="Edit" title="Click to edit"></a></td>
+				<td><a href="<?php echo $this->adminPath?>/album/photo/album_id/<?php echo $this->escape($album->getAlbumId()) ?>/has_photo/<?php echo $this->escape(!$album->getHasPhoto()) ?>">
+				<?php if ($this->escape($album->getHasPhoto())): ?>				
+					<img src="/img/icons/transparent.gif" class="admin_icons view_has_photo" alt="Photo available" title="Photo available | Click to toggle" />
+				<?php else: ?>
+					<img src="/img/icons/transparent.gif" class="admin_icons view_has_no_photo" alt="Photo not available" title="Photo not available | Click to toggle" />					
+				<?php endif;?></a></td>
+				<td><a href="<?php echo $this->adminPath?>/album/lock/album_id/<?php echo $this->escape($album->getAlbumId()) ?>/locked/<?php echo $this->escape(!$album->getLocked()) ?>">
+				<?php if ($this->escape($album->getLocked())): ?>				
+					<img src="/img/icons/transparent.gif" class="admin_icons view_lock" alt="Locked" title="Locked | Click to toggle" />
+				<?php else: ?>
+					<img src="/img/icons/transparent.gif" class="admin_icons view_unlock" alt="Unlocked" title="Unlocked | Click to toggle" />					
+				<?php endif;?></a></td>
+				<td><a href="<?php echo $this->adminPath?>/album/complete/album_id/<?php echo $this->escape($album->getAlbumId()) ?>/featured/<?php echo $this->escape(!$album->getFeatured()) ?>">
+				<?php if ($this->escape($album->getFeatured())): ?>				
+					<img src="/img/icons/transparent.gif" class="admin_icons view_complete" alt="Complete" title="Complete | Click to toggle" />
+				<?php else: ?>	
+					<img src="/img/icons/transparent.gif" class="admin_icons view_incomplete" alt="Incomplete" title="Incomplete | Click to toggle" />
+				<?php endif;?></a></td>				
+	        </tr>	        
+	        <?php endforeach; ?>
+	        <tr>
+	        	<td ><img class="selectallarrow" src="/img/icons/arrow_ltr.png" alt="With selected:"></td>
+	        	<td colspan="<?php echo ($this->albumConfig['view_show_photo'] ? 7: 6)?>">
+	        		<a href="#" onclick="cQuery.markAllRows('album_select'); return false;">Check All</a>&nbsp;|
+	        		<a href="#" onclick="cQuery.unMarkAllRows('album_select'); return false;">Uncheck All</a>	        		
+	        		<form method="post" class="adminViewForm" action="<?php echo $this->adminPath?>/album/update-many" onsubmit="return cQuery.adminViewFormValidate('album');">
+	        			<input type="hidden" id="album_selected" name="album_selected" value="">						
+						<select name="select_action" id="select_action">
+							<option value="">--Select Action--</option>
+							<option value="has_photo__1">Has photo</option>
+							<option value="has_photo__0">Has no photo</option>
+							<option value="locked__1">Lock</option>
+							<option value="locked__0">Unlock</option>
+							<option value="featured__1">Mark complete</option>
+							<option value="featured__0">Mark incomplete</option>							
+						</select>						 
+					<button id="submit" class="adminButton" type="submit">
+							<span>Update</span>
+						</button>
+
+					</form>
+				</td>
+	        </tr>
+	        	
+		<?php else: ?>
+		<tr>
+			<td colspan="<?php echo ($this->albumConfig['view_show_photo'] ? 8: 7)?>">There are no albums to display</td>
+		</tr>
+		<?php endif;?>
+	</tbody>
+</table>
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'shared/pagination_control.phtml'); ?>
+<br/>

@@ -1,0 +1,182 @@
+<?php 
+$onloadScript = "cQuery.adminAutocomplete();";
+$this->headScript()->appendScript($onloadScript);
+?>
+<div class="itemsNav">
+<span><a href="http://www.youtube.com/results?search_query=<?php echo $this->escape($this->music->getMusicTitle()) ?> <?php echo $this->music->getAlbum()->getAlbumName() ?>" target="_blank">Search Youtube</a></span>
+</div>
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/music/save" >
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Music</h5>								
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="album_name">Album</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="album_name" name="album_name" value="<?php echo $this->music->getAlbum()->getAlbumName() ?>" store="<?php echo $this->albumStore?>" class="admin_autocomplete" idfield="album_id">
+					<input type="hidden" id="album_id" name="album_id" value="<?php echo $this->music->getAlbum()->getAlbumId() ?>" />					
+				</div>
+			</div>			
+			<div class="control">
+				<div class="labelControl">
+					<label for="music_title">Music Title</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="music_title" name="music_title" value="<?php echo $this->escape($this->music->getMusicTitle()) ?>">
+					<input type="hidden" id="music_id" name="music_id" value="<?php echo $this->escape($this->music->getMusicId()) ?>" />
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="image">Music Photo</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="image" name="image" value="<?php echo $this->escape($this->music->getImage()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="video">Music Video</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="video" name="video" value="<?php echo $this->escape($this->music->getVideo()) ?>">
+				</div>
+			</div>
+			<div class="control">
+				<div class="labelControl">
+					<label for="lyrics">Lyrics</label>
+				</div>
+				<div class="fieldControlLeft">
+					<textarea id="lyrics" name="lyrics" ><?php echo $this->escape($this->music->getLyrics()) ?></textarea>
+				</div>
+			</div>
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Music</span>
+					</button>
+				</div>
+			</div>
+		</fieldset>				
+	</form>
+</div>
+<div class="htlFormControl">
+	<form method="post" class="adminForm" action="<?php echo $this->adminPath?>/music/save-rel"
+		onsubmit="return cQuery.musicFormValidate();">
+
+		<fieldset class="containingBlock">
+			<div class="control">
+				<h5 class="sectionHeader">Music Relationships</h5>
+			</div>
+			<div id="composer_list_creator" class="control">
+				<div class="labelControl">
+					<label for="composer_name">Composer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="composer_name" name="composer_name" value=""
+						store="<?php echo $this->composerStore?>"
+						class="admin_multi_autocomplete" autotype="composer" /> <input
+						type="hidden" id="composer_ids" name="composer_ids" value="" />
+				</div>
+			</div>
+			<?php $composers = $this->music->getComposers(); ?>
+			<?php if ($composers): ?>
+			<div id="composer_list" class="control">
+			<?php foreach ($composers as $composer):	?>
+			<?php ?>
+				<div id="composer-<?php echo $composer->getComposerId() ?>"
+					class="ref_list">
+					<span><a class="auto_delbutton"></a> <?php echo $composer->getComposerName() ?>
+					</span>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div id="singer_list_creator" class="control">
+				<div class="labelControl">
+					<label for="singer_name">Singer</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="singer_name" name="singer_name" value=""
+						store="<?php echo $this->singerStore?>"
+						class="admin_multi_autocomplete" autotype="singer"
+						idfield="singer_id" /> <input type="hidden" id="singer_ids"
+						name="singer_ids" value="" />
+				</div>
+			</div>
+			<?php $singers = $this->music->getSingers(); ?>
+			<?php if ($singers): ?>
+			<div id="singer_list" class="control">
+			<?php foreach ($singers as $singer):	?>
+				<div id="singer-<?php echo $singer->getSingerId() ?>"
+					class="ref_list">
+					<span><a class="auto_delbutton"></a> <?php echo $singer->getSingerName() ?>
+					</span>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div id="lyricist_list_creator" class="control">
+				<div class="labelControl">
+					<label for="lyricist_name">Lyricist</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="lyricist_name" name="lyricist_name" value=""
+						store="<?php echo $this->lyricistStore?>"
+						class="admin_multi_autocomplete" autotype="lyricist"
+						idfield="lyricist_id" /> <input type="hidden" id="lyricist_ids"
+						name="lyricist_ids" value="" />
+				</div>
+			</div>
+			<?php $lyricists = $this->music->getLyricists(); ?>
+			<?php if ($lyricists): ?>
+			<div id="lyricist_list" class="control">
+			<?php foreach ($lyricists as $lyricist):	?>
+				<div id="lyricist-<?php echo $lyricist->getLyricistId() ?>"
+					class="ref_list">
+					<span><a class="auto_delbutton"></a> <?php echo $lyricist->getLyricistName() ?>
+					</span>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<div id="artist_list_creator" class="control">
+				<div class="labelControl">
+					<label for="artist_name">Artist</label>
+				</div>
+				<div class="fieldControlLeft">
+					<input type="text" id="artist_name" name="artist_name" value=""
+						store="<?php echo $this->artistStore?>"
+						class="admin_multi_autocomplete" autotype="artist"
+						idfield="artist_id" /> <input type="hidden" id="artist_ids"
+						name="artist_ids" value="" />
+				</div>
+			</div>
+			<?php $artists = $this->music->getArtists(); ?>
+			<?php if ($artists): ?>
+			<div id="artist_list" class="control">
+			<?php foreach ($artists as $artist):	?>
+				<div id="artist-<?php echo $artist->getArtistId() ?>"
+					class="ref_list">
+					<span><a class="auto_delbutton"></a> <?php echo $artist->getArtistName() ?>
+					</span>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif;?>
+			<input type="hidden" id="music_id" name="music_id" value="<?php echo $this->escape($this->music->getMusicId()) ?>" />
+			<div class="control">
+				<div class="fieldControlLeft">
+					<button id="submit" class="adminButton" type="submit">
+						<span>Edit Music Relationships</span>
+					</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+
+</div>

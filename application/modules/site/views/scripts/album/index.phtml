@@ -1,0 +1,81 @@
+<?php 
+if($this->search){
+	$startsWith = " starts with '{$this->search}'";
+}
+if($this->page > 1){
+	$pageText = " - Page {$this->page}";
+}
+$title = "Browse albums{$startsWith}{$pageText}| LyricsRead.com";
+$this->headTitle($title);
+
+$keywords = 'list of albums,list of movies,movies,songs,lyrics,collection of lyrics,find lyrics';
+$description = 'List of albums: ';
+?>
+<div class="songHeader">
+	<h1>Browse albums<?php echo $startsWith;?><?php echo $pageText;?></h1>
+</div>
+<div class="listSearch">
+	<input type="text" id="album_name"
+			name="album_name" value="Search albums.."
+			store="<?php echo $this->albumStore?>" class="autocomplete"
+			idfield="album_id"
+			autotype="album" /> 
+	<input type="hidden" id="album_id" name="album_id" value="" />
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+<?php if ($this->paginator && count($this->paginator)): ?>
+	<div class="listRow">
+	<?php foreach ($this->paginator as $key => $album):	?>
+	<?php
+	$albumLink = strtolower($album->getAlbumName()). ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$albumLink = $filter->filter($albumLink);
+
+	$albumLink = $this->serverUrl() . '/album/'.$albumLink;
+	if($key > 0 && $key % 4 == 0){
+		echo '</div><div class="listRow">';
+	}
+	
+	if($key < 5){
+		$keywords.= ','.$album->getAlbumName();
+	}
+	if($key < 10){
+		if($key > 0){
+			$description.= '| ';	
+		}
+		$description.= $album->getAlbumName();
+	}
+	?>
+
+		<div class="column">
+		<?php
+		$imageSrc = $album->getImage();
+		$imageSrc = empty($imageSrc) ? '/img/album/default.png' : $imageSrc;
+		?>
+			<a href="<?php echo $albumLink?>"><img src="<?php echo $imageSrc?>"
+				alt="<?php echo $album->getAlbumName();?> songs"
+				title="<?php echo $album->getAlbumName();?> songs" 
+				width="100" height="100" /> </a>
+			<div class="listLinkContainer">
+				<a href="<?php echo $albumLink?>" title="<?php echo $album->getAlbumName();?> songs"><?php echo $album->getAlbumName();?>
+				</a>
+			</div>
+		</div>
+
+		<?php endforeach; ?>
+	</div>
+<?php else:?>
+<?php echo $this->render('app-site/no_items.phtml')?>
+<?php endif;?>
+<div class="clear"></div>	
+</div>
+<?php echo $this->paginationControl($this->paginator,
+                                    'Jumping',
+                                    'shared/pagination_control.phtml'); ?>
+<?php 
+echo $this->render('app-site/social_button.phtml');
+//Zend_Debug::dump($description);
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+?>

@@ -1,0 +1,78 @@
+<?php 
+if($this->search){
+	$startsWith = " starts with '{$this->search}'";
+}
+if($this->page > 1){
+	$pageText = " - Page {$this->page}";
+}
+$title = "Browse composers{$startsWith}{$pageText}| LyricsRead.com";
+$this->headTitle($title);
+
+$description = 'List of composers: ';
+?>
+<div class="songHeader">
+	<h1>Browse composers<?php echo $startsWith;?><?php echo $pageText;?></h1>
+</div>
+<div class="listSearch">
+	<input type="text" id="composer_name"
+			name="composer_name" value="Search composers.."
+			store="<?php echo $this->composerStore?>" class="autocomplete"
+			idfield="composer_id" 
+			autotype="composer" /> 
+	<input type="hidden" id="composer_id" name="composer_id" value="" />
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+<?php if ($this->paginator && count($this->paginator)): ?>
+	<div class="listRow">
+	<?php foreach ($this->paginator as $key => $composer):	?>
+	<?php
+	$composerLink = strtolower($composer->getComposerName()). ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$composerLink = $filter->filter($composerLink);
+
+	$composerLink = $this->serverUrl(). '/composer/'.$composerLink;
+	if($key > 0 && $key % 4 == 0){
+		echo '</div><div class="listRow">';
+	}
+	
+	if($key < 10){
+		if($key > 0){
+			$description.= '| ';	
+		}
+		$description.= $composer->getComposerName();
+	}
+	?>
+
+		<div class="column">
+		<?php
+		$imageSrc = $composer->getImage();
+		$imageSrc = empty($imageSrc) ? '/img/composer/_0_a3.jpg' : $imageSrc;
+		?>
+			<a href="<?php echo $composerLink?>"><img src="<?php echo $imageSrc?>"
+				alt="<?php echo $composer->getComposerName();?> songs" 
+				title="<?php echo $composer->getComposerName();?> songs" 
+				width="100" height="100" /> </a>
+			<div class="listLinkContainer">
+				<a href="<?php echo $composerLink?>" title="<?php echo $composer->getComposerName();?> songs"><?php echo $composer->getComposerName();?>
+				</a>
+			</div>
+		</div>
+
+		<?php endforeach; ?>
+	</div>
+<?php else:?>
+<?php echo $this->render('app-site/no_items.phtml')?>
+<?php endif;?>
+<div class="clear"></div>	
+</div>
+<?php echo $this->paginationControl($this->paginator,
+                                    'Jumping',
+                                    'shared/pagination_control.phtml'); ?>
+<?php 
+echo $this->render('app-site/social_button.phtml');
+//Zend_Debug::dump($description);
+$keywords = 'list of composers,list of music directors,music directors,composers,lyrics,collection of lyrics,find lyrics,find composers,find music directors';
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+?>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+charset=utf-8" />
+<base href="/" />
+<?php
+
+$this->headLink()->appendStylesheet('/css/style.css')
+->headLink()->appendStylesheet('/library/css/flick/jquery-ui-1.8.22.custom.css');
+$this->headScript()->prependFile('/js/tquery.js')
+->headScript()->prependFile('/library/js/jquery-ui-1.8.22.custom.min.js')
+->headScript()->prependFile('/library/js/jquery-1.7.2.min.js');
+
+echo $this->headTitle();
+echo $this->headMeta();
+echo $this->headStyle();
+echo $this->headLink();
+
+?>
+<style>
+.ui-autocomplete-loading {
+	background: white
+		url('library/css/flick/images/ui-anim_basic_16x16.gif') right center
+		no-repeat;
+}
+</style>
+
+</head>
+<body>
+	
+<?php echo $this->layout()->content ?>				
+
+<?php echo $this->headScript() ?>
+	
+</body>
+</html>

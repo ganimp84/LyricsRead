@@ -1,0 +1,102 @@
+<?php
+if($this->search){
+	$startsWith = " starts with '{$this->search}'";
+}
+if($this->page > 1){
+	$pageText = " - Page {$this->page}";
+}
+$title = "Browse songs{$startsWith}{$pageText}| LyricsRead.com";
+$this->headTitle($title);
+
+$description = 'List of songs: ';
+?>
+<div class="songHeader">
+	<h1>Browse songs<?php echo $startsWith;?><?php echo $pageText;?></h1>
+</div>
+<div class="clear"></div>
+<div class="listContainer">
+<?php if ($this->paginator && count($this->paginator)): ?>
+	<div class="listSongRow">
+	<?php foreach ($this->paginator as $key => $music):	?>
+	<?php
+	//Zend_Debug::dump($music, $label = 'Select:', $echo = true);
+	$musicLink = strtolower($music->getMusicTitle()). '.html';	
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$musicLink = $filter->filter($musicLink);
+	$musicLink = $this->serverUrl() . '/song/'.$musicLink;	
+	
+	$albumLink = strtolower($music->getAlbum()->getAlbumName()). ' songs.html';
+	$filter  = new Zend_Filter_Word_SeparatorToDash();
+	$albumLink = $filter->filter($albumLink);
+	$albumLink = $this->serverUrl() . '/album/'.$albumLink;	
+	if($key < 10){
+		if($key > 0){
+			$description.= '| ';	
+		}
+		$description.= $music->getMusicTitle();
+	}
+	?>
+
+		<div class="columnA">
+		<?php
+		$imageSrc = $music->getImage();
+		if($music->getMusicId() == 1){
+			//echo "Album Image = ".$music->getAlbum()->getImage();
+			//Zend_Debug::dump($music->getAlbum(), $label = 'Album:', $echo = true);
+		}
+		$imageSrc = empty($imageSrc) ? $music->getAlbum()->getImage() : $imageSrc;		
+		$imageSrc = empty($imageSrc) ? '/img/music/_0_a2.png' : $imageSrc;
+		?>
+			<a href="<?php echo $musicLink?>"><img src="<?php echo $imageSrc?>"
+				alt="<?php echo $music->getMusicTitle();?> song lyrics" 
+				title="<?php echo $music->getMusicTitle();?> song lyrics" 
+				width="40" height="40"/> </a>
+		</div>
+		<div class="columnB">
+			<div class="castContainer">
+				<div class="songLabel">
+					<span class="castTitle">Song: </span><a href="<?php echo $musicLink?>" title="<?php echo $music->getMusicTitle();?> song lyrics"><?php echo $music->getMusicTitle();?></a>
+				</div>
+				<div class="songLabel">
+					<span class="castTitle">Album/ Movie: </span><a href="<?php echo $albumLink?>" title="<?php echo $music->getAlbum()->getAlbumName();?> songs"><?php echo $music->getAlbum()->getAlbumName();?></a>
+				</div>				
+				<?php if($this->userIdentity && $this->userIdentity->type == 'admin'):?>
+				<br />
+				<div>
+					<a rel="noindex, nofollow" href="<?php echo $this->adminPath?>/music/edit/music_id/<?php echo $music->getMusicId()?>"><img src="/img/icons/transparent.gif" class="admin_icons view_edit" alt="Edit" title="Click to edit"></a>
+					<a rel="noindex, nofollow" href="<?php echo $this->adminPath?>/music/published/music_id/<?php echo $this->escape($music->getMusicId()) ?>/published/<?php echo $this->escape(!$music->getPublished()) ?>">
+				<?php if ($this->escape($music->getPublished())): ?>				
+					<img src="/img/icons/transparent.gif" class="admin_icons view_lock" alt="Published" title="Published | Click to toggle" />
+				<?php else: ?>
+					<img src="/img/icons/transparent.gif" class="admin_icons view_unlock" alt="Not published" title="Not Published | Click to toggle" />					
+				<?php endif;?></a>
+				</div>
+				<?php endif;?>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<?php if(($key + 1) % 2 ==0):?>
+			<!-- div class="clear"></div -->
+		<?php endif;?>		
+		<?php endforeach; ?>
+	</div>
+<?php else:?>
+<?php echo $this->render('app-site/no_items.phtml')?>
+<?php endif;?>
+<div class="clear"></div>
+</div>
+	<?php 
+	if(!$this->homePage) {
+	echo $this->paginationControl($this->paginator,
+                                    'Jumping',
+                                    'shared/pagination_control.phtml'); 
+	}
+	?>
+<?php
+echo $this->render('app-site/social_button.phtml');
+//Zend_Debug::dump($description);
+$keywords = 'list of songs,songs,lyrics,collection of lyrics,list of lyrics,find lyrics,find songs';
+
+$this->headMeta()->appendName('keywords', $keywords);
+$this->headMeta()->appendName('description', $description);
+?>	

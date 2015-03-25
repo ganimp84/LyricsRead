@@ -1,0 +1,14 @@
+<div id="browse">
+<ul>
+<?php 
+$numbers = range(0, 9);
+$letters = range('A', 'Z');
+if($this->browse_numbers){
+	$letters = array_merge($numbers, $letters);
+}
+?>
+<?php foreach($letters as $letter):?>
+<li><a href="<?php echo $this->url(array('ls' => $letter), null, true); ?>"><?php echo $letter?></a></li>
+<?php endforeach;?>
+</ul>
+</div>
