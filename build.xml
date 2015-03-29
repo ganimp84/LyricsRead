@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Money" default="build">
+<project name="LyricsRead" default="build">
  <target name="build" depends="prepare,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit,phpdox"/>
 
  <target name="clean" unless="clean.done" description="Cleanup build artifacts">
@@ -23,8 +23,7 @@
   <exec executable="php">   
    <arg value="${basedir}/build/tools/phpab.phar" />
    <arg value="--output" />
-   <arg path="src/autoload.php" />
-   <arg path="src" />
+   <arg path="application" />
   </exec>
  </target>
 
@@ -32,12 +31,7 @@
   <apply executable="php" failonerror="true">
    <arg value="-l" />
 
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
-
-   <fileset dir="${basedir}/tests">
+   <fileset dir="${basedir}/application">
     <include name="**/*.php" />
     <modified />
    </fileset>
@@ -48,8 +42,7 @@
   <exec executable="php">
    <arg value="${basedir}/build/tools/phploc.phar" />
    <arg value="--count-tests" />
-   <arg path="${basedir}/src" />
-   <arg path="${basedir}/tests" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
@@ -61,8 +54,7 @@
    <arg path="${basedir}/build/logs/phploc.csv" />
    <arg value="--log-xml" />
    <arg path="${basedir}/build/logs/phploc.xml" />
-   <arg path="${basedir}/src" />
-   <arg path="${basedir}/tests" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
@@ -72,14 +64,14 @@
    <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
    <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
    <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
  <target name="phpmd" description="Perform project mess detection using PHPMD and print result in text format">
   <exec executable="php">
    <arg value="${basedir}/build/tools/phpmd.phar" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
    <arg value="text" />
    <arg path="${basedir}/build/phpmd.xml" />
   </exec>
@@ -88,7 +80,7 @@
  <target name="phpmd-ci" depends="prepare" description="Perform project mess detection using PHPMD and log result in XML format">
   <exec executable="php">
    <arg value="${basedir}/build/tools/phpmd.phar" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
    <arg value="xml" />
    <arg path="${basedir}/build/phpmd.xml" />
    <arg value="--reportfile" />
@@ -100,10 +92,8 @@
   <exec executable="php">
    <arg value="${basedir}/build/tools/phpcs.phar" />
    <arg value="--standard=PSR2" />
-   <arg value="--extensions=php" />
-   <arg value="--ignore=autoload.php" />
-   <arg path="${basedir}/src" />
-   <arg path="${basedir}/tests" />
+   <arg value="--extensions=php" />   
+   <arg path="${basedir}/application" />   
   </exec>
  </target>
 
@@ -114,15 +104,14 @@
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
    <arg value="--standard=PSR2" />
    <arg value="--extensions=php" />
-   <arg value="--ignore=autoload.php" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
  <target name="phpcpd" description="Find duplicate code using PHPCPD">
   <exec executable="php">
    <arg value="${basedir}/build/tools/phpcpd.phar" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
@@ -131,7 +120,7 @@
    <arg value="${basedir}/build/tools/phpcpd.phar" />
    <arg value="--log-pmd" />
    <arg path="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg path="${basedir}/src" />
+   <arg path="${basedir}/application" />
   </exec>
  </target>
 
