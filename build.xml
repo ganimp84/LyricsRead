@@ -21,8 +21,6 @@
 
  <target name="generate-code" description="Generate Currency-specific subclasses of Money and autoloader code">  
   <exec executable="php">   
-   <arg value="${basedir}/build/tools/phpab.phar" />
-   <arg value="--output" />
    <arg path="application" />
   </exec>
  </target>

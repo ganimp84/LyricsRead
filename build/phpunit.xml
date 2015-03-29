@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-         bootstrap="../src/autoload.php"
+         bootstrap="../application/Bootstrap.php"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
@@ -8,7 +8,7 @@
          forceCoversAnnotation="true"
          verbose="true">
     <testsuites>
-        <testsuite name="Money">
+        <testsuite name="Lyrics Read">
             <directory suffix="Test.php">../tests</directory>
         </testsuite>
     </testsuites>
@@ -23,9 +23,9 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">../application</directory>
             <exclude>
-                <file>../src/autoload.php</file>
+                <file>../application/Bootstrap.php</file>
             </exclude>
         </whitelist>
     </filter>
